@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCM Workshop Quiz — FedEx · Accenture · University of Memphis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#F5F3FF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px 12px 60px}
+.shell{width:100%;max-width:620px}
+
+/* Header */
+.hdr{background:#4D148C;border-radius:12px 12px 0 0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.hdr-left .title{color:#fff;font-size:15px;font-weight:700}
+.hdr-left .sub{color:#C4B8F0;font-size:11px;margin-top:2px}
+.hdr-badge{background:rgba(255,255,255,.18);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap}
+
+/* Progress */
+.pbar{height:4px;background:#e0daf5}
+.pbfill{height:4px;background:#FF6600;width:0%;transition:width .5s}
+
+/* Card */
+.card{background:#fff;border:1px solid #e0daf5;border-top:none;padding:22px 20px;border-radius:0 0 12px 12px;min-height:200px}
+
+/* ── Buttons ── */
+.btn{border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:700;font-family:Arial;cursor:pointer;width:100%;margin-top:10px}
+.btn:disabled{background:#d1c9f0;color:#fff;cursor:default}
+.btn-primary{background:#4D148C;color:#fff}.btn-primary:hover:not(:disabled){background:#3C3489}
+.btn-orange{background:#FF6600;color:#fff}.btn-orange:hover{background:#cc5200}
+.btn-outline{background:#fff;color:#4D148C;border:1.5px solid #b8aee8}.btn-outline:hover{background:#EEEDFE}
+
+/* ── Registration ── */
+.reg-icon{font-size:40px;text-align:center;margin-bottom:12px}
+.reg-title{font-size:20px;font-weight:700;color:#26215C;margin-bottom:6px}
+.reg-sub{font-size:13px;color:#666;line-height:1.6;margin-bottom:20px}
+.field label{display:block;font-size:11px;font-weight:700;color:#4D148C;margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase}
+.field input{width:100%;padding:11px 14px;border:1.5px solid #d1c9f0;border-radius:9px;font-size:15px;font-family:Arial;color:#222;outline:none;transition:border-color .2s}
+.field input:focus{border-color:#4D148C}
+
+/* ── Section cards (lobby) ── */
+.lobby-title{font-size:16px;font-weight:700;color:#26215C;margin-bottom:4px}
+.lobby-sub{font-size:13px;color:#666;margin-bottom:18px}
+.sec-card{border:1.5px solid #e0daf5;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:default}
+.sec-card.unlocked{cursor:pointer;border-color:#4D148C;background:#FAFAFE}
+.sec-card.unlocked:hover{background:#EEEDFE}
+.sec-card.done{border-color:#3B6D11;background:#F0FAF4}
+.sec-card.active-glow{box-shadow:0 0 0 3px rgba(77,20,140,.2)}
+.sc-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sc-body{flex:1}
+.sc-name{font-size:13px;font-weight:700;color:#26215C}
+.sc-meta{font-size:11px;color:#888;margin-top:2px}
+.sc-status{font-size:11px;font-weight:700;white-space:nowrap}
+.status-locked{color:#bbb}
+.status-open{color:#4D148C}
+.status-done{color:#3B6D11}
+
+/* Passcode unlock box */
+.unlock-box{background:#F5F3FF;border:1.5px dashed #b8aee8;border-radius:10px;padding:16px 18px;margin-top:14px}
+.unlock-title{font-size:13px;font-weight:700;color:#4D148C;margin-bottom:8px}
+.unlock-row{display:flex;gap:8px}
+.unlock-row input{flex:1;padding:10px 13px;border:1.5px solid #d1c9f0;border-radius:8px;font-size:15px;font-family:Arial;letter-spacing:2px;text-transform:uppercase;outline:none}
+.unlock-row input:focus{border-color:#4D148C}
+.unlock-row button{background:#4D148C;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:700;font-family:Arial;cursor:pointer;white-space:nowrap}
+.unlock-row button:hover{background:#3C3489}
+.unlock-err{color:#E24B4A;font-size:12px;margin-top:6px;display:none}
+.unlock-hint{font-size:11px;color:#aaa;margin-top:6px}
+
+/* ── Section intro ── */
+.sec-intro{text-align:center;padding:10px 4px 4px}
+.si-badge{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:1px;margin-bottom:12px}
+.si-title{font-size:20px;font-weight:700;color:#26215C;margin-bottom:6px}
+.si-desc{font-size:13px;color:#666;margin-bottom:16px}
+.si-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.pill{background:#F5F3FF;color:#534AB7;font-size:12px;padding:4px 14px;border-radius:20px}
+
+/* ── Question ── */
+.q-hdr{border-radius:8px;padding:11px 14px;margin-bottom:12px}
+.q-label{font-size:10px;font-weight:700;letter-spacing:.8px;margin-bottom:4px;opacity:.8}
+.q-text{font-size:15px;font-weight:700;line-height:1.45;color:#1a1a2e}
+
+.opt{width:100%;background:#fff;border:1.5px solid #e0e0e0;border-radius:9px;padding:10px 13px;text-align:left;cursor:pointer;font-size:13px;font-family:Arial;display:flex;align-items:center;gap:10px;margin-bottom:7px;transition:border-color .15s,background .15s;color:#222}
+.opt:hover:not(:disabled){border-color:#4D148C;background:#FAFAFE}
+.opt.sel{border-color:#4D148C;background:#EEEDFE}
+.opt.correct{border-color:#3B6D11 !important;background:#EAF3DE !important;color:#173404 !important}
+.opt.wrong{border-color:#E24B4A !important;background:#FCEBEB !important;color:#791F1F !important}
+.opt.dim{color:#ccc;border-color:#f0f0f0}
+.opt:disabled{cursor:default}
+.olbl{width:22px;height:22px;border-radius:50%;background:#eee;color:#555;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all .15s}
+.opt.sel .olbl{background:#4D148C;color:#fff}
+.opt.correct .olbl{background:#3B6D11;color:#fff}
+.opt.wrong .olbl{background:#E24B4A;color:#fff}
+
+.reveal-wrap{margin-top:6px}
+.reveal-btn{border:none;border-radius:8px;padding:9px 22px;cursor:pointer;font-size:13px;font-weight:700;font-family:Arial;color:#fff}
+.reveal-btn:hover{opacity:.88}
+.hint-txt{font-size:11px;color:#bbb;margin-top:8px}
+
+.exp{border-radius:8px;padding:11px 14px;font-size:12px;line-height:1.65;margin-top:10px}
+.exp.ok{background:#EAF3DE;border:1px solid #3B6D11;color:#173404}
+.exp.nope{background:#FAEEDA;border:1px solid #BA7517;color:#412402}
+.next-q-btn{border:none;border-radius:8px;padding:9px 20px;cursor:pointer;font-size:13px;font-weight:700;font-family:Arial;color:#fff;margin-top:10px}
+.next-q-btn:hover{opacity:.88}
+
+.qpbar{height:3px;background:#e5e7eb;border-radius:2px;margin-top:14px}
+.qpfill{height:100%;border-radius:2px;transition:width .4s}
+
+/* ── Section result ── */
+.sr-wrap{text-align:center;padding:8px 0}
+.sr-ring{width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin:0 auto 10px;border:4px solid}
+.sr-ring.p{background:#EAF3DE;border-color:#3B6D11;color:#173404}
+.sr-ring.g{background:#FAEEDA;border-color:#BA7517;color:#412402}
+.sr-ring.l{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.dots{display:flex;justify-content:center;gap:8px;margin:10px 0 18px}
+.dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid}
+.dot.ok{background:#EAF3DE;border-color:#3B6D11;color:#27500A}
+.dot.no{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+
+/* ── Final result ── */
+.final-score{font-size:42px;font-weight:700;color:#4D148C}
+.bk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+.bk-cell{background:#F5F3FF;border-radius:9px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center}
+.bk-label{font-size:11px;font-weight:700;color:#534AB7}
+.bk-sub{font-size:10px;color:#888;margin-top:1px}
+.bk-val{font-size:16px;font-weight:700}
+
+.resp-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.resp-tbl th{background:#4D148C;color:#fff;padding:7px 9px;text-align:left;font-size:11px}
+.resp-tbl td{padding:6px 9px;border-bottom:1px solid #e8e4f8;vertical-align:top}
+.resp-tbl tr:nth-child(even) td{background:#FAFAFE}
+.tag{padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700}
+.tag.ok{background:#EAF3DE;color:#27500A}
+.tag.no{background:#FCEBEB;color:#791F1F}
+.tag.sk{background:#F1EFE8;color:#5F5E5A}
+
+.export-btn{background:#0F6E56;color:#fff;border:none;border-radius:9px;padding:11px;cursor:pointer;font-size:13px;font-weight:700;font-family:Arial;width:100%;margin-top:14px}
+.export-btn:hover{background:#085041}
+
+/* Facilitator FAB */
+.fab{position:fixed;bottom:18px;right:18px;background:#4D148C;color:#fff;border:none;border-radius:50%;width:46px;height:46px;cursor:pointer;font-size:19px;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100}
+.fac-drawer{display:none;position:fixed;bottom:72px;right:18px;width:310px;background:#fff;border:1.5px solid #d1c9f0;border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,.14);padding:14px;z-index:99;max-height:65vh;overflow-y:auto}
+.fac-drawer.open{display:block}
+.fd-title{font-size:13px;font-weight:700;color:#4D148C;margin-bottom:10px}
+.fd-row{font-size:11px;padding:5px 0;border-bottom:1px solid #f0edfc;display:flex;justify-content:space-between;gap:8px;color:#444}
+.fd-row span:first-child{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd-codes{background:#F5F3FF;border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.fd-codes .ct{font-size:11px;font-weight:700;color:#4D148C;margin-bottom:6px}
+.fd-code-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:#444}
+.fd-code-row code{background:#4D148C;color:#fff;padding:1px 8px;border-radius:4px;font-size:12px;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="title">SCM Workshop — Knowledge Check</div>
+      <div class="sub">FedEx · Accenture · University of Memphis</div>
+    </div>
+    <div class="hdr-badge" id="hdr-badge">Welcome</div>
+  </div>
+  <div class="pbar"><div class="pbfill" id="pbfill"></div></div>
+  <div class="card" id="main"></div>
+</div>
+
+<button class="fab" onclick="toggleFac()" title="Facilitator view">📊</button>
+<div class="fac-drawer" id="fac-drawer">
+  <div class="fd-title">📊 Facilitator Panel</div>
+  <div class="fd-codes">
+    <div class="ct">Passcodes to announce after each section:</div>
+    <div class="fd-code-row"><span>Quiz 1 — Supply Chains</span><code>SCM1</code></div>
+    <div class="fd-code-row"><span>Quiz 2 — Strategy & Logistics</span><code>SCM2</code></div>
+    <div class="fd-code-row"><span>Quiz 3 — FedEx & Trends</span><code>SCM3</code></div>
+    <div class="fd-code-row"><span>Final Quiz — All Topics</span><code>FINAL</code></div>
+  </div>
+  <div id="fac-responses"><em style="font-size:12px;color:#aaa">No responses recorded yet</em></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const SECTIONS = [
+  {
+    id:'Q1', code:'SCM1',
+    title:'Section 1: Supply Chains & Disruptions',
+    short:'Supply Chains', time:'9:30 AM', mins:'8 min',
+    color:'#BA7517', bg:'#FAEEDA', border:'#EF9F27', text:'#412402',
+    qs:[
+      {q:"Which three flows run through every supply chain?",
+       o:["Cash, Labour and Technology","Materials, Information and Funds","Supply, Demand and Inventory","Upstream, Downstream and Sideways"],
+       a:1, e:"Materials flow downstream to customers, Information flows in both directions, and Funds flow upstream to suppliers — the three core flows in every supply chain."},
+      {q:"The Bullwhip Effect describes what supply chain phenomenon?",
+       o:["Trucks accelerating on delivery routes","Small demand shifts amplifying into large upstream order swings","Seasonal demand spikes at retail level","Rapid price drops caused by oversupply"],
+       a:1, e:"A small consumer demand change cascades and grows larger at each upstream tier — like the cracking tip of a whip. A 5% consumer change can cause 320%+ swings at the manufacturer."},
+      {q:"Which event blocked approximately 12% of global trade for 6 days in 2021?",
+       o:["A ransomware attack on Maersk","A Japan earthquake halting Toyota","The Suez Canal blockage","COVID-19 port shutdowns in China"],
+       a:2, e:"The Suez Canal blockage in March 2021 disrupted ~12% of global trade for 6 days, causing approximately $400 million per hour in economic disruption worldwide."}
+    ]
+  },
+  {
+    id:'Q2', code:'SCM2',
+    title:'Section 2: SCM Strategy & Logistics',
+    short:'SCM Strategy', time:'10:06 AM', mins:'8 min',
+    color:'#534AB7', bg:'#EEEDFE', border:'#AFA9EC', text:'#26215C',
+    qs:[
+      {q:"Which SCOR model activity does FedEx primarily provide to its customers?",
+       o:["Make — manufacturing products","Source — procuring raw materials","Deliver — transportation and fulfillment","Plan — demand forecasting"],
+       a:2, e:"FedEx's core role in the SCOR model is DELIVER — order fulfillment, transportation management, and last-mile execution across 220+ countries."},
+      {q:"A fashion retailer with unpredictable seasonal demand should adopt which strategy?",
+       o:["Efficient — minimize cost, use long lead times","Responsive — prioritize speed and flexibility","Push — manufacture all items 12 months in advance","Lean — eliminate all buffer stock entirely"],
+       a:1, e:"Fashion demand is volatile and unpredictable. A Responsive strategy — maintaining buffer stock, using agile suppliers with short lead times — is the correct choice."},
+      {q:"In a Pull supply chain, production is triggered by what?",
+       o:["Annual demand forecasts from analysts","Confirmed customer orders arriving","Seasonal inventory build targets","Raw material price drops"],
+       a:1, e:"Pull = demand-driven. Production starts ONLY when a real confirmed customer order arrives — like Dell's build-to-order model. This cuts overstock waste significantly."}
+    ]
+  },
+  {
+    id:'Q3', code:'SCM3',
+    title:'Section 3: FedEx & Emerging Trends',
+    short:'FedEx & Trends', time:'10:51 AM', mins:'8 min',
+    color:'#0F6E56', bg:'#E1F5EE', border:'#5DCAA5', text:'#04342C',
+    qs:[
+      {q:"Which FedEx segment specializes in warehousing, fulfillment, and returns management?",
+       o:["Federal Express — express air delivery","FedEx Logistics — freight forwarding","FedEx Supply Chain — warehousing and fulfillment","FedEx Dataworks — analytics platform"],
+       a:2, e:"FedEx Supply Chain provides contract warehousing, distribution, fulfillment, returns processing, recycling, and transportation management for enterprise customers."},
+      {q:"FedEx SenseAware ID provides shipment location updates every how many seconds?",
+       o:["60 seconds","30 seconds","15 seconds","6 seconds"],
+       a:3, e:"SenseAware ID provides updates every 6 seconds — the world's most frequent tracking cadence. It also monitors temperature, humidity, light, and pressure for pharma cold chain."},
+      {q:"'Scope 3 emissions' refers to which category of emissions?",
+       o:["Emissions from company-owned offices only","Emissions from the company's own delivery vehicles","All emissions across the entire value chain including suppliers and customers","Emissions from international air cargo only"],
+       a:2, e:"Scope 3 covers all indirect emissions across a company's entire value chain — suppliers, logistics, customer use, and disposal. Up to 90% of a company's carbon footprint lives here."}
+    ]
+  },
+  {
+    id:'QF', code:'FINAL',
+    title:'Final Quiz — All Topics',
+    short:'Final Quiz', time:'10:59 AM', mins:'12 min',
+    color:'#993C1D', bg:'#FAECE7', border:'#F0997B', text:'#4A1B0C',
+    qs:[
+      {q:"In a supply chain, what does 'downstream' mean?",
+       o:["Toward raw material suppliers","Toward the end customer","Into warehouse storage areas","Across competitor networks"],
+       a:1, e:"Downstream = toward the end customer. Upstream = toward raw material suppliers. Materials flow downstream; funds flow upstream."},
+      {q:"What is the key difference between Push and Pull supply chain systems?",
+       o:["Push uses air freight; Pull uses road transport","Push produces based on forecasts before orders; Pull produces on confirmed orders only","Push is always efficient; Pull is always responsive","Push is for perishables; Pull is for durables"],
+       a:1, e:"Push = forecast-driven (produce before orders arrive, overstock risk). Pull = demand-driven on confirmed orders only — like Dell's build-to-order. Pull reduces inventory waste significantly."},
+      {q:"US logistics costs approximately what share of GDP annually?",
+       o:["2.6% of GDP","5.4% of GDP","8.7% of GDP","12.3% of GDP"],
+       a:2, e:"US logistics costs ~$2.6 trillion annually — about 8.7% of GDP (CSCMP State of Logistics Report). Transportation alone accounts for ~64% of that total."},
+      {q:"Which FedEx program delivered $2.2 billion in permanent savings in FY2024?",
+       o:["Network 2.0 integration program","The SenseAware ID sensor rollout","The DRIVE transformation program","The FedEx Dataworks fdx platform launch"],
+       a:2, e:"The DRIVE program, launched in 2022, delivered $2.2B in permanent annual savings in FY2024 by integrating Ground and Express into One FedEx under Network 2.0."},
+      {q:"UPS ORION's AI routing saves approximately how many miles per year?",
+       o:["10 million miles per year","50 million miles per year","100 million miles per year","500 million miles per year"],
+       a:2, e:"UPS ORION saves 100M+ miles/year through AI-powered dynamic route optimization. FedEx uses similar AI for last-mile dispatch and Memphis sort hub operations."}
+    ]
+  }
+];
+
+const TOTAL_Q = SECTIONS.reduce((s,x) => s + x.qs.length, 0);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let name = '';
+let unlocked  = [false, false, false, false]; // which sections are unlocked
+let completed = [false, false, false, false]; // which sections are done
+let scores    = [null, null, null, null];      // {score, total}
+let responses = []; // all recorded answers
+
+// Active quiz state
+let activeSec  = -1; // section index being played
+let activeQ    = 0;  // question index within section
+let sel        = -1;
+let revealed   = false;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UTILITIES
+// ─────────────────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+function setMain(html){ $('main').innerHTML = html; }
+function setBadge(t){ $('hdr-badge').textContent = t; }
+
+function setProgress(){
+  const done = responses.filter(r=>r.result!=='').length;
+  $('pbfill').style.width = Math.round((done/TOTAL_Q)*100) + '%';
+}
+
+function doneCount(){
+  return responses.filter(r=>r.result!=='').length;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REGISTRATION
+// ─────────────────────────────────────────────────────────────────────────────
+function showReg(){
+  setBadge('Welcome');
+  setMain(`
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="font-size:44px;margin-bottom:10px">👋</div>
+      <div style="font-size:20px;font-weight:700;color:#26215C;margin-bottom:6px">Welcome to the SCM Workshop Quiz</div>
+      <p style="font-size:13px;color:#666;line-height:1.6;max-width:400px;margin:0 auto">
+        You'll complete a short quiz after each section of today's session.<br>
+        Your facilitator will give you a code to unlock each quiz.
+      </p>
+    </div>
+    <div class="field" style="margin-bottom:16px">
+      <label>Your name</label>
+      <input type="text" id="inp-name" placeholder="e.g. Sarah Johnson" oninput="checkName()" autocomplete="name">
+    </div>
+    <button class="btn btn-primary" id="btn-go" onclick="register()" disabled>Let's go →</button>
+    <p style="font-size:11px;color:#aaa;text-align:center;margin-top:12px">14 questions · 4 quizzes · unlocked one at a time</p>
+  `);
+}
+
+function checkName(){
+  const v = $('inp-name').value.trim();
+  $('btn-go').disabled = v.length < 2;
+}
+
+function register(){
+  name = $('inp-name').value.trim();
+  showLobby();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOBBY
+// ─────────────────────────────────────────────────────────────────────────────
+function showLobby(){
+  setBadge(`Hi, ${name.split(' ')[0]}`);
+  setProgress();
+
+  const anyOpen = unlocked.some((u,i) => u && !completed[i]);
+  const allDone = completed.every(Boolean);
+
+  const cards = SECTIONS.map((s,i) => {
+    const isLocked    = !unlocked[i];
+    const isDone      = completed[i];
+    const isOpen      = unlocked[i] && !isDone;
+    const sc          = scores[i];
+
+    let statusHtml, cardClass;
+    if(isDone){
+      cardClass = 'sec-card done';
+      statusHtml = `<span class="sc-status status-done">✓ ${sc.score}/${sc.total}</span>`;
+    } else if(isOpen){
+      cardClass = 'sec-card unlocked active-glow';
+      statusHtml = `<span class="sc-status status-open">▶ Open now</span>`;
+    } else {
+      cardClass = 'sec-card';
+      statusHtml = `<span class="sc-status status-locked">🔒 Locked</span>`;
+    }
+
+    const click = isOpen ? `onclick="startSection(${i})"` : '';
+    return `
+      <div class="${cardClass}" ${click}>
+        <div class="sc-icon" style="background:${s.bg};border:2px solid ${s.border}">
+          ${isDone ? '✓' : isOpen ? '▶' : '🔒'}
+        </div>
+        <div class="sc-body">
+          <div class="sc-name">${s.id} — ${s.short}</div>
+          <div class="sc-meta">${s.qs.length} questions · ${s.time} · ${s.mins}</div>
+        </div>
+        ${statusHtml}
+      </div>`;
+  }).join('');
+
+  // Unlock box — only show if there's still a locked+incomplete section
+  const nextLocked = SECTIONS.findIndex((s,i) => !unlocked[i] && !completed[i]);
+  const unlockBox = (nextLocked >= 0 && !anyOpen) ? `
+    <div class="unlock-box">
+      <div class="unlock-title">🔑 Enter the code from your facilitator to unlock the next quiz</div>
+      <div class="unlock-row">
+        <input type="text" id="code-inp" placeholder="e.g. SCM1" maxlength="10"
+               oninput="this.value=this.value.toUpperCase()"
+               onkeydown="if(event.key==='Enter')tryUnlock()">
+        <button onclick="tryUnlock()">Unlock</button>
+      </div>
+      <div class="unlock-err" id="unlock-err">❌ Wrong code — check with your facilitator</div>
+      <div class="unlock-hint">Codes are handed out after each section ends</div>
+    </div>` : (anyOpen ? '' : (allDone ? '' : ''));
+
+  const totalDone = responses.filter(r=>r.result!=='').length;
+  const totalCorrect = responses.filter(r=>r.result==='correct').length;
+  const summaryBar = totalDone > 0 ? `
+    <div style="background:#F5F3FF;border-radius:9px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <span style="font-size:12px;color:#534AB7;font-weight:700">${name}'s progress</span>
+      <span style="font-size:13px;font-weight:700;color:#4D148C">${totalCorrect}/${totalDone} correct so far</span>
+    </div>` : '';
+
+  const finalBtn = allDone ? `
+    <button class="btn btn-orange" onclick="showFinal()" style="margin-top:6px">See my full results →</button>` : '';
+
+  setMain(`
+    <div style="font-size:16px;font-weight:700;color:#26215C;margin-bottom:4px">Your quizzes</div>
+    <p style="font-size:13px;color:#666;margin-bottom:16px">
+      ${allDone ? 'All quizzes complete! 🎉' : anyOpen ? 'A quiz is ready — tap it to begin.' : 'Waiting for your facilitator to unlock the next quiz.'}
+    </p>
+    ${summaryBar}
+    ${cards}
+    ${unlockBox}
+    ${finalBtn}
+  `);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PASSCODE UNLOCK
+// ─────────────────────────────────────────────────────────────────────────────
+function tryUnlock(){
+  const inp = $('code-inp');
+  const code = (inp ? inp.value.trim().toUpperCase() : '');
+  const idx = SECTIONS.findIndex(s => s.code === code);
+
+  if(idx === -1 || completed[idx]){
+    $('unlock-err').style.display = 'block';
+    if(inp){ inp.value=''; inp.focus(); }
+    setTimeout(()=>{ const e=$('unlock-err'); if(e) e.style.display='none'; }, 2500);
+    return;
+  }
+
+  unlocked[idx] = true;
+  showLobby();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SECTION INTRO
+// ─────────────────────────────────────────────────────────────────────────────
+function startSection(i){
+  activeSec = i;
+  activeQ   = 0;
+  sel       = -1;
+  revealed  = false;
+  const s = SECTIONS[i];
+  setBadge(`${s.id} — ${s.short}`);
+  setMain(`
+    <div class="sec-intro">
+      <div class="si-badge" style="background:${s.color}">${i < 3 ? 'SECTION '+(i+1)+' OF 3' : 'FINAL QUIZ'}</div>
+      <div class="si-title">${s.title}</div>
+      <div class="si-desc">Read each question carefully, select your answer, then reveal to see the explanation.</div>
+      <div class="si-pills">
+        <span class="pill">🕐 ${s.time}</span>
+        <span class="pill">⏱ ${s.mins}</span>
+        <span class="pill">❓ ${s.qs.length} questions</span>
+      </div>
+      <button class="btn btn-orange" onclick="showQuestion()">Start →</button>
+      <button class="btn btn-outline" style="margin-top:8px" onclick="showLobby()">← Back to quizzes</button>
+    </div>
+  `);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// QUESTION
+// ─────────────────────────────────────────────────────────────────────────────
+function showQuestion(){
+  const s = SECTIONS[activeSec];
+  const q = s.qs[activeQ];
+  sel = -1; revealed = false;
+  setBadge(`${s.id} · Q${activeQ+1}/${s.qs.length}`);
+  setProgress();
+
+  const opts = q.o.map((o,i) => `
+    <button class="opt" id="o${i}" onclick="pickOpt(${i})">
+      <span class="olbl">${String.fromCharCode(65+i)}</span>${o}
+    </button>`).join('');
+
+  const qPct = Math.round((activeQ / s.qs.length)*100);
+
+  setMain(`
+    <div class="q-hdr" style="background:${s.bg};border:1px solid ${s.border}">
+      <div class="q-label" style="color:${s.color}">QUESTION ${activeQ+1} OF ${s.qs.length} · ${s.short.toUpperCase()}</div>
+      <div class="q-text">${q.q}</div>
+    </div>
+    ${opts}
+    <div class="reveal-wrap" id="rev-area">
+      <div class="hint-txt">Select an answer above, then click <strong>Reveal answer</strong></div>
+    </div>
+    <div class="qpbar"><div class="qpfill" style="width:${qPct}%;background:${s.color}"></div></div>
+  `);
+}
+
+function pickOpt(i){
+  if(revealed) return;
+  sel = i;
+  document.querySelectorAll('.opt').forEach((b,idx) => {
+    b.classList.toggle('sel', idx===i);
+  });
+  const s = SECTIONS[activeSec];
+  $('rev-area').innerHTML = `
+    <button class="reveal-btn" style="background:${s.color}" onclick="revealAnswer()">Reveal answer ▼</button>
+    <div class="hint-txt" style="margin-top:6px">or <a href="#" onclick="advanceQ();return false" style="color:#aaa;font-size:11px">skip this question →</a></div>
+  `;
+}
+
+function revealAnswer(){
+  if(sel === -1) return;
+  revealed = true;
+  const s = SECTIONS[activeSec];
+  const q = s.qs[activeQ];
+  const ok = sel === q.a;
+
+  // Style options
+  document.querySelectorAll('.opt').forEach((b,i) => {
+    b.disabled = true;
+    b.classList.remove('sel','correct','wrong','dim');
+    if(i===q.a)      b.classList.add('correct');
+    else if(i===sel) b.classList.add('wrong');
+    else             b.classList.add('dim');
+    b.querySelector('.olbl').textContent =
+      i===q.a ? '✓' : i===sel ? '✗' : String.fromCharCode(65+i);
+  });
+
+  // Update q progress bar
+  const qPct = Math.round(((activeQ+1)/s.qs.length)*100);
+  document.querySelector('.qpfill').style.width = qPct+'%';
+
+  // Record
+  saveResponse(ok);
+
+  const isLastQ = activeQ === s.qs.length-1;
+  const nextLabel = isLastQ ? 'See section results →' : 'Next question →';
+
+  $('rev-area').innerHTML = `
+    <div class="exp ${ok?'ok':'nope'}">
+      <strong>${ok?'✓ Correct! ':'The right answer: '}</strong>${q.e}
+    </div>
+    <button class="next-q-btn" style="background:${s.color}" onclick="advanceQ()">${nextLabel}</button>
+  `;
+}
+
+function advanceQ(){
+  // If revealed=false and sel=-1, it's a skip — record blank
+  if(!revealed){
+    saveResponse(null); // null = skipped
+  }
+  activeQ++;
+  const s = SECTIONS[activeSec];
+  if(activeQ >= s.qs.length){
+    finishSection();
+  } else {
+    showQuestion();
+  }
+}
+
+function saveResponse(ok){
+  const s = SECTIONS[activeSec];
+  const q = s.qs[activeQ];
+  // Avoid duplicates
+  const key = `${activeSec}-${activeQ}`;
+  if(responses.find(r=>r._key===key)) return;
+  responses.push({
+    _key: key,
+    name,
+    section: s.short,
+    q_num: `${s.id}.${activeQ+1}`,
+    question: q.q,
+    chosen: sel>=0 ? q.o[sel] : '(skipped)',
+    correct: q.o[q.a],
+    result: ok===null ? 'skipped' : ok ? 'correct' : 'wrong',
+    time: new Date().toLocaleTimeString()
+  });
+  setProgress();
+  updateFacPanel();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SECTION FINISH
+// ─────────────────────────────────────────────────────────────────────────────
+function finishSection(){
+  const s = SECTIONS[activeSec];
+  const secResps = responses.filter(r=>r._key.startsWith(activeSec+'-'));
+  const score = secResps.filter(r=>r.result==='correct').length;
+  scores[activeSec] = {score, total: s.qs.length};
+  completed[activeSec] = true;
+
+  const pct = Math.round((score/s.qs.length)*100);
+  const ringCls = pct===100?'p':pct>=67?'g':'l';
+  const emoji = pct===100?'🏆':pct>=67?'👍':'📖';
+  const msg = pct===100?'Perfect score!':pct>=67?'Great effort!':'Keep going — review explanations with your group.';
+
+  const dots = s.qs.map((_,i) => {
+    const r = responses.find(x=>x._key===`${activeSec}-${i}`);
+    const ok = r && r.result==='correct';
+    return `<div class="dot ${ok?'ok':'no'}">${ok?'✓':'✗'}</div>`;
+  }).join('');
+
+  const allDone = completed.every(Boolean);
+  const nextBtn = allDone
+    ? `<button class="btn btn-orange" onclick="showFinal()">See full results →</button>`
+    : `<button class="btn btn-orange" onclick="showLobby()">Back to quizzes →</button>`;
+
+  setBadge(`${s.id} done`);
+  setMain(`
+    <div class="sr-wrap">
+      <div class="sr-ring ${ringCls}">${score}/${s.qs.length}</div>
+      <div style="font-size:19px;font-weight:700;color:#26215C;margin-bottom:4px">${emoji} ${msg}</div>
+      <div style="font-size:13px;color:#666;margin-bottom:12px">${pct}% on ${s.short}</div>
+      <div class="dots">${dots}</div>
+      <div style="font-size:12px;color:#aaa;margin-bottom:16px">
+        ${allDone ? 'All quizzes complete!' : 'Wait for your facilitator before starting the next section.'}
+      </div>
+      ${nextBtn}
+      <button class="btn btn-outline" onclick="showLobby()" style="margin-top:8px">Back to quiz list</button>
+    </div>
+  `);
+  setProgress();
+  updateFacPanel();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FINAL RESULTS
+// ─────────────────────────────────────────────────────────────────────────────
+function showFinal(){
+  const totalCorrect = responses.filter(r=>r.result==='correct').length;
+  const totalAnswered = responses.filter(r=>r.result!=='skipped').length;
+  const pct = Math.round((totalCorrect/TOTAL_Q)*100);
+  const emoji = pct===100?'🏆':pct>=80?'🌟':pct>=60?'👍':'📖';
+  const msg = pct===100?'Outstanding — perfect score!':pct>=80?'Excellent work!':pct>=60?'Good effort!':'Keep reviewing — discuss with your group.';
+
+  const bkCells = SECTIONS.map((s,i) => {
+    const sc = scores[i] || {score:0, total:s.qs.length};
+    const p = Math.round((sc.score/sc.total)*100);
+    return `<div class="bk-cell">
+      <div><div class="bk-label">${s.id}</div><div style="font-size:10px;color:#888">${s.short}</div></div>
+      <div class="bk-val" style="color:${p>=67?'#0F6E56':'#993C1D'}">${sc.score}/${sc.total}</div>
+    </div>`;
+  }).join('');
+
+  const rows = responses.map(r => `
+    <tr>
+      <td style="font-weight:700;color:#888;white-space:nowrap">${r.q_num}</td>
+      <td>${r.question}</td>
+      <td style="color:#555">${r.chosen}</td>
+      <td><span class="tag ${r.result==='correct'?'ok':r.result==='skipped'?'sk':'no'}">${r.result}</span></td>
+    </tr>`).join('');
+
+  setBadge('Results');
+  setMain(`
+    <div style="text-align:center;padding:6px 0 16px">
+      <div style="font-size:44px;margin-bottom:8px">${emoji}</div>
+      <div class="final-score">${totalCorrect} / ${TOTAL_Q}</div>
+      <div style="font-size:14px;color:#666;margin-bottom:4px">${pct}% — ${msg}</div>
+      <div style="font-size:12px;color:#aaa">Completed by ${name} · ${new Date().toLocaleTimeString()}</div>
+    </div>
+    <div class="bk-grid">${bkCells}</div>
+    <div style="border-top:1px solid #e0daf5;padding-top:14px">
+      <div style="font-size:12px;font-weight:700;color:#4D148C;margin-bottom:8px">Full answer record</div>
+      <div style="overflow-x:auto">
+        <table class="resp-tbl">
+          <thead><tr><th>#</th><th>Question</th><th>Your answer</th><th>Result</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <button class="export-btn" onclick="exportCSV()">⬇ Download my responses (CSV)</button>
+    </div>
+  `);
+  setProgress();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CSV EXPORT
+// ─────────────────────────────────────────────────────────────────────────────
+function exportCSV(){
+  const hdr = ['Name','Section','Q#','Question','Your Answer','Correct Answer','Result','Time'];
+  const body = responses.map(r=>[
+    `"${r.name}"`, `"${r.section}"`, r.q_num,
+    `"${r.question.replace(/"/g,'""')}"`,
+    `"${r.chosen.replace(/"/g,'""')}"`,
+    `"${r.correct.replace(/"/g,'""')}"`,
+    r.result, r.time
+  ]);
+  const csv = [hdr,...body].map(r=>r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download = `SCM_Quiz_${name.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FACILITATOR PANEL
+// ─────────────────────────────────────────────────────────────────────────────
+function toggleFac(){
+  $('fac-drawer').classList.toggle('open');
+}
+
+function updateFacPanel(){
+  const el = $('fac-responses');
+  if(!responses.length){ el.innerHTML='<em style="font-size:12px;color:#aaa">No responses yet</em>'; return; }
+  const tot = responses.length;
+  const cor = responses.filter(r=>r.result==='correct').length;
+  let html = `<div style="font-size:13px;font-weight:700;color:#26215C;margin-bottom:6px">${name} — ${cor}/${tot} answered (${Math.round(cor/tot*100)}% correct)</div>`;
+  SECTIONS.forEach((s,i)=>{
+    const rs = responses.filter(r=>r._key.startsWith(i+'-'));
+    if(!rs.length) return;
+    const sc = rs.filter(r=>r.result==='correct').length;
+    html += `<div style="font-size:11px;font-weight:700;color:${s.color};margin:8px 0 3px">${s.id} — ${s.short} · ${sc}/${rs.length}</div>`;
+    rs.forEach(r=>{
+      html += `<div class="fd-row">
+        <span>${r.q_num} ${r.question.substring(0,36)}…</span>
+        <span class="tag ${r.result==='correct'?'ok':r.result==='skipped'?'sk':'no'}">${r.result}</span>
+      </div>`;
+    });
+  });
+  html += `<button class="export-btn" onclick="exportCSV()" style="margin-top:10px;font-size:12px;padding:8px">⬇ Download CSV</button>`;
+  el.innerHTML = html;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+showReg();
+</script>
+</body>
+</html>
