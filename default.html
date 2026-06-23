@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)file:///C:/Users/jitender.bhalla/Downloads/fedex_workshop_opener_11.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedEx Supply Chain — Workshop Opener</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;font-family:Arial,sans-serif;width:100%}
+body{display:flex;flex-direction:column;align-items:center;padding-bottom:20px}
+.shell{width:100%;max-width:1200px}
+
+.stage{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
+#vid{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;z-index:1}
+
+/* cinematic */
+.bar-top,.bar-bot{position:absolute;left:0;right:0;height:8%;background:#000;z-index:8;pointer-events:none}
+.bar-top{top:0}.bar-bot{bottom:0}
+.vignette{position:absolute;inset:0;z-index:9;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.6) 100%)}
+.grad-top{position:absolute;top:0;left:0;right:0;height:44%;z-index:10;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.82) 0%,transparent 100%)}
+.grad-bot{position:absolute;bottom:0;left:0;right:0;height:40%;z-index:10;pointer-events:none;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 100%)}
+
+/* video overlays */
+.top-badge{position:absolute;top:10%;left:50%;transform:translateX(-50%);z-index:20;text-align:center;opacity:0;transition:opacity .8s .5s;pointer-events:none}
+.top-badge.show{opacity:1}
+.badge-pill{display:inline-block;background:rgba(255,102,0,.15);border:1px solid rgba(255,102,0,.5);color:#FF6600;font-size:clamp(9px,1.1vw,12px);font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 18px;border-radius:20px;margin-bottom:8px}
+.badge-title{font-size:clamp(11px,1.5vw,15px);color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase}
+.main-hl{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);z-index:20;text-align:center;width:88%;pointer-events:none;opacity:0;transition:opacity .9s,transform .9s}
+.main-hl.show{opacity:1;transform:translate(-50%,-54%)}
+.mh-eye{font-size:clamp(10px,1.3vw,14px);color:#FF6600;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px}
+.mh-title{font-size:clamp(26px,5.5vw,66px);font-weight:900;color:#fff;line-height:1.08;text-shadow:0 4px 30px rgba(0,0,0,.9);margin-bottom:12px}
+.mh-title em{color:#FF6600;font-style:normal}
+.mh-sub{font-size:clamp(12px,1.7vw,19px);color:rgba(255,255,255,.6);line-height:1.5;max-width:560px;margin:0 auto}
+.lower-third{position:absolute;bottom:13%;left:0;right:0;z-index:20;padding:0 6%;pointer-events:none;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+.lower-third.show{opacity:1;transform:translateY(0)}
+.lt-accent{width:40px;height:3px;background:#FF6600;border-radius:2px;margin-bottom:9px}
+.lt-ch{font-size:clamp(9px,1.1vw,12px);color:#FF6600;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
+.lt-title{font-size:clamp(15px,2.6vw,30px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:5px}
+.lt-sub{font-size:clamp(10px,1.4vw,15px);color:rgba(255,255,255,.58);line-height:1.4}
+.stat-card{position:absolute;top:50%;right:6%;transform:translateY(-50%) translateX(24px);z-index:20;background:rgba(77,20,140,.85);border-left:4px solid #FF6600;border-radius:0 10px 10px 0;padding:12px 20px;min-width:150px;text-align:center;opacity:0;transition:opacity .5s,transform .5s;pointer-events:none;backdrop-filter:blur(6px)}
+.stat-card.show{opacity:1;transform:translateY(-50%) translateX(0)}
+.sc-num{font-size:clamp(22px,3.8vw,42px);font-weight:900;color:#FF6600;line-height:1}
+.sc-lbl{font-size:clamp(10px,1.2vw,13px);color:rgba(255,255,255,.8);margin-top:4px;line-height:1.4}
+
+/* story canvas */
+#story-canvas{position:absolute;inset:0;z-index:2;display:none}
+/* Two SVG layers — bg (static per scene) + fg (animated each frame) */
+#story-bg,#story-fg{position:absolute;inset:0;width:100%;height:100%}
+
+/* scene label */
+.scene-label{position:absolute;top:9%;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;opacity:0;transition:opacity .6s}
+.scene-label.show{opacity:1}
+.sl-tag{display:inline-block;background:rgba(77,20,140,.88);border:1px solid rgba(255,102,0,.6);color:#FF6600;font-size:clamp(9px,1.1vw,12px);font-weight:700;letter-spacing:2px;padding:3px 16px;border-radius:20px;margin-bottom:5px;text-transform:uppercase}
+.sl-title{font-size:clamp(14px,2.2vw,24px);font-weight:900;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.9)}
+
+/* subtitles */
+.sub-bar{position:absolute;bottom:0;left:0;right:0;z-index:30;background:rgba(0,0,0,.82);border-top:2px solid rgba(255,102,0,.65);padding:9px 5% 13px;min-height:52px;backdrop-filter:blur(6px);opacity:0;transition:opacity .3s;pointer-events:none}
+.sub-bar.vis{opacity:1}
+.sub-text{font-size:clamp(14px,1.9vw,21px);color:#fff;line-height:1.5;text-align:center}
+.sw-done{color:#FF9944}.sw-now{color:#fff;font-weight:700;text-shadow:0 0 12px rgba(255,180,60,.6)}.sw-next{color:rgba(255,255,255,.3)}
+
+/* chapter dots */
+.ch-dots{position:absolute;top:10%;right:4%;z-index:22;display:flex;gap:7px}
+.cdot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.25);cursor:pointer;pointer-events:all;transition:background .3s,transform .3s,border-color .3s}
+.cdot.on{background:#FF6600;border-color:#FF6600;transform:scale(1.4)}
+.cdot.past{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.45)}
+
+/* end card */
+.end-card{position:absolute;inset:0;z-index:40;background:linear-gradient(135deg,#080010 0%,#180828 50%,#080010 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.2s}
+.end-card.show{opacity:1;pointer-events:all}
+.ec-logo{font-size:clamp(34px,7vw,78px);font-weight:900;color:#fff;margin-bottom:4px}
+.ec-logo span{color:#FF6600}
+.ec-tag{font-size:clamp(10px,1.5vw,16px);color:rgba(255,255,255,.45);letter-spacing:3px;text-transform:uppercase;margin-bottom:22px}
+.ec-line{width:52px;height:3px;background:#FF6600;border-radius:2px;margin:0 auto 20px}
+.ec-q{font-size:clamp(15px,2.6vw,28px);font-weight:700;color:#fff;text-align:center;max-width:480px;line-height:1.45;margin-bottom:10px}
+.ec-sub{font-size:clamp(12px,1.4vw,16px);color:rgba(255,255,255,.42);text-align:center;max-width:400px;line-height:1.6}
+.ec-replay{margin-top:24px;background:#FF6600;border:none;color:#fff;font-size:13px;font-weight:700;font-family:Arial;padding:11px 30px;border-radius:28px;cursor:pointer;transition:transform .2s}
+.ec-replay:hover{background:#cc5200;transform:scale(1.04)}
+
+/* intro */
+#intro{position:absolute;inset:0;z-index:50;background:linear-gradient(135deg,rgba(0,0,0,.95) 0%,rgba(40,10,80,.82) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer}
+#intro.gone{display:none}
+.i-badge{background:rgba(255,102,0,.15);border:1px solid rgba(255,102,0,.4);color:#FF6600;font-size:11px;font-weight:700;padding:5px 20px;border-radius:20px;letter-spacing:2px;margin-bottom:20px}
+.i-play{width:78px;height:78px;border-radius:50%;background:#FF6600;border:none;color:#fff;font-size:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 50px rgba(255,102,0,.5);margin-bottom:20px;transition:transform .2s}
+.i-play:hover{transform:scale(1.08);background:#cc5200}
+.i-h{font-size:clamp(22px,5vw,50px);font-weight:900;color:#fff;text-align:center;line-height:1.1;margin-bottom:12px}
+.i-h em{color:#FF6600;font-style:normal}
+.i-s{font-size:clamp(12px,1.6vw,16px);color:rgba(255,255,255,.48);text-align:center;max-width:460px;line-height:1.65;margin-bottom:14px}
+.i-meta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.i-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.48);font-size:11px;padding:4px 13px;border-radius:20px}
+
+/* controls */
+.ctrl{background:#0e0e0e;padding:10px 20px;display:flex;align-items:center;gap:10px;border-top:1px solid #181818}
+.pbtn{width:38px;height:38px;border-radius:50%;background:#FF6600;border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pbtn:hover{background:#cc5200}
+.pw{flex:1;height:20px;display:flex;align-items:center;cursor:pointer;position:relative}
+.pb{width:100%;height:4px;background:#222;border-radius:2px;position:relative;overflow:visible}
+.pf{height:100%;background:#FF6600;border-radius:2px;width:0%;pointer-events:none;position:relative}
+.pf::after{content:'';position:absolute;right:-6px;top:-4px;width:12px;height:12px;border-radius:50%;background:#FF6600;box-shadow:0 0 8px rgba(255,102,0,.6)}
+.cm{position:absolute;top:50%;transform:translateY(-50%);width:2px;height:10px;background:#6b5a9e;border-radius:1px;pointer-events:none}
+.tlbl{font-size:12px;color:#666;min-width:90px;text-align:right;flex-shrink:0}
+.vrow{background:#0a0a0a;padding:8px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid #141414}
+.vbtn{background:#161616;border:1px solid #252525;color:#888;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;font-family:Arial;transition:all .15s;white-space:nowrap}
+.vbtn:hover{background:#222;color:#fff}.vbtn.on{background:#FF6600;border-color:#FF6600;color:#fff}
+.vrange{-webkit-appearance:none;appearance:none;height:4px;background:#222;border-radius:2px;outline:none;cursor:pointer;width:80px}
+.vrange::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:#FF6600;cursor:pointer}
+.vsel{background:#161616;border:1px solid #252525;color:#888;padding:4px 8px;border-radius:6px;font-size:12px;cursor:pointer;font-family:Arial}
+.vstatus{font-size:11px;flex:1}.vstatus.sp{color:#FF6600;font-weight:700}.vstatus.id{color:#333}
+.chnav{background:#0a0a0a;padding:8px 20px;display:flex;gap:7px;flex-wrap:wrap;border-top:1px solid #111}
+.cpill{background:#111;border:1px solid #1e1e1e;color:#555;padding:5px 12px;border-radius:20px;cursor:pointer;font-size:11px;font-weight:700;font-family:Arial;transition:all .2s;white-space:nowrap}
+.cpill:hover{border-color:#FF6600;color:#FF6600}.cpill.on{background:#FF6600;border-color:#FF6600;color:#fff}
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="stage" id="stage">
+  <video id="vid" preload="auto" playsinline="" src="fedex_broll_ws.mp4"></video>
+  <div class="bar-top"></div><div class="bar-bot"></div>
+  <div class="vignette"></div><div class="grad-top"></div><div class="grad-bot"></div>
+  <div class="top-badge" id="top-badge"><div class="badge-pill">SCM Workshop 2026</div><div class="badge-title">FedEx · Accenture · University of Memphis</div></div>
+  <div class="main-hl" id="main-hl"><div class="mh-eye">Supply Chain Foundations</div><div class="mh-title">Where does<br>everything<br><em>come from?</em></div><div class="mh-sub">Every product. Every delivery. Every night.<br>It all starts here.</div></div>
+  <div class="lower-third" id="lower-third"><div class="lt-accent"></div><div class="lt-ch" id="lt-ch"></div><div class="lt-title" id="lt-title"></div><div class="lt-sub" id="lt-sub"></div></div>
+  <div class="stat-card" id="stat-card"><div class="sc-num" id="sc-num"></div><div class="sc-lbl" id="sc-lbl"></div></div>
+
+  <!-- Story: two SVG layers -->
+  <div id="story-canvas">
+    <svg id="story-bg" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg"></svg>
+    <svg id="story-fg" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0"></svg>
+  </div>
+
+  <div class="scene-label" id="scene-label"><div class="sl-tag" id="sl-tag"></div><div class="sl-title" id="sl-title"></div></div>
+  <div class="ch-dots" id="ch-dots"><div class="cdot on" title="Opening" style="pointer-events: all;"></div><div class="cdot" title="Memphis World Hub" style="pointer-events: all;"></div><div class="cdot" title="Intelligence at Scale" style="pointer-events: all;"></div><div class="cdot" title="Jeet Taps — Order Now" style="pointer-events: all;"></div><div class="cdot" title="Pick, Pack &amp; Ship" style="pointer-events: all;"></div><div class="cdot" title="Through the Hub at Midnight" style="pointer-events: all;"></div><div class="cdot" title="Flying to Jeet" style="pointer-events: all;"></div><div class="cdot" title="Jeet Gets His Sneakers" style="pointer-events: all;"></div></div>
+  <div class="sub-bar" id="sub-bar"><div class="sub-text" id="sub-txt"></div></div>
+
+  <div class="end-card" id="end-card">
+    <div class="ec-logo">Fed<span>Ex</span></div>
+    <div class="ec-tag">Memphis World Hub</div>
+    <div class="ec-line"></div>
+    <div class="ec-q">"You just watched a real supply chain in action —<br>from Jeet's tap to his doorstep."</div>
+    <div class="ec-sub">Now let's discuss in detail how each component of the supply chain works.</div>
+    <button class="ec-replay" onclick="replayAll()">↺ Watch again</button>
+  </div>
+
+  <div id="intro" onclick="startPlay()">
+    <div class="i-badge">WORKSHOP OPENER · 2.5 MINUTES</div>
+    <button class="i-play">▶</button>
+    <div class="i-h">From FedEx Hub<br>to <em>Jeet's Door</em></div>
+    <div class="i-s">Part 1: Real FedEx Memphis footage.<br>Part 2: Follow Jeet's sneakers through a real supply chain — step by step.</div>
+    <div class="i-meta">
+      <span class="i-pill">🎬 Real FedEx B-Roll</span>
+      <span class="i-pill">🎨 Animated Story</span>
+      <span class="i-pill">🔊 Narrated</span>
+      <span class="i-pill">⏱ 2.5 minutes</span>
+    </div>
+  </div>
+</div>
+
+<div class="ctrl">
+  <button class="pbtn" id="pbtn" onclick="togglePlay()" title="Pause video and voice" style="width:auto;padding:0 18px;border-radius:22px;gap:6px;font-size:13px;font-weight:700;display:flex;align-items:center;white-space:nowrap">
+    <span id="pbtn-icon">▶</span>
+    <span id="pbtn-lbl" style="font-size:12px">Play</span>
+  </button>
+  <div class="pw" id="pw" onclick="seekBarClick(event)"><div class="pb" id="pb"><div class="pf" id="pf"></div><div class="cm" title="The Hub" style="left: 8.66667%;"></div><div class="cm" title="The Network" style="left: 17.3333%;"></div><div class="cm" title="Jeet Orders" style="left: 24.6667%;"></div><div class="cm" title="The Warehouse" style="left: 38%;"></div><div class="cm" title="Memphis Hub" style="left: 51.3333%;"></div><div class="cm" title="In the Air" style="left: 66.6667%;"></div><div class="cm" title="Delivered!" style="left: 81.3333%;"></div><div title="Story begins" style="position: absolute; top: 50%; transform: translateY(-50%); left: 24.7%; width: 3px; height: 16px; background: rgb(255, 102, 0); border-radius: 1px; pointer-events: none; opacity: 0.8;"></div></div></div>
+  <span class="tlbl" id="tlbl">0:00 / 2:30</span>
+</div>
+<div class="vrow">
+  <span style="font-size:12px;color:#444;font-weight:700;white-space:nowrap">🔊 Narration</span>
+  <button class="vbtn on" id="vobtn" onclick="toggleVO()">Voice ON</button>
+  <button class="vbtn on" id="ccbtn" onclick="toggleCC()">CC ON</button>
+  <span style="font-size:11px;color:#333">Vol</span>
+  <input type="range" class="vrange" id="volvr" min="0" max="1" step="0.05" value="1" oninput="setVol(this.value)">
+  <span style="font-size:11px;color:#333">Voice</span>
+  <select class="vsel" id="voice-picker" onchange="setVoice(this.value)" style="max-width:180px" title="Auto will use: Microsoft Guy Online (Natural) - English (United States)">
+    <option value="">Auto (best available)</option>
+  <option value="Microsoft David - English (United States)">Microsoft David - English (United States) (en-US)</option><option value="Microsoft Richard - English (Canada)">Microsoft Richard - English (Canada) (en-CA)</option><option value="Microsoft Linda - English (Canada)">Microsoft Linda - English (Canada) (en-CA)</option><option value="Microsoft Mark - English (United States)">Microsoft Mark - English (United States) (en-US)</option><option value="Microsoft Zira - English (United States)">Microsoft Zira - English (United States) (en-US)</option><option value="Microsoft WilliamMultilingual Online (Natural) - English (Australia)">★ Microsoft WilliamMultilingual Online (Natural) - English (Australia) (en-AU)</option><option value="Microsoft Natasha Online (Natural) - English (Australia)">★ Microsoft Natasha Online (Natural) - English (Australia) (en-AU)</option><option value="Microsoft Clara Online (Natural) - English (Canada)">★ Microsoft Clara Online (Natural) - English (Canada) (en-CA)</option><option value="Microsoft Liam Online (Natural) - English (Canada)">★ Microsoft Liam Online (Natural) - English (Canada) (en-CA)</option><option value="Microsoft Yan Online (Natural) - English (Hong Kong SAR)">★ Microsoft Yan Online (Natural) - English (Hong Kong SAR) (en-HK)</option><option value="Microsoft Sam Online (Natural) - English (Hongkong)">★ Microsoft Sam Online (Natural) - English (Hongkong) (en-HK)</option><option value="Microsoft Neerja Online (Natural) - English (India) (Preview)">★ Microsoft Neerja Online (Natural) - English (India) (Preview) (en-IN)</option><option value="Microsoft Neerja Online (Natural) - English (India)">★ Microsoft Neerja Online (Natural) - English (India) (en-IN)</option><option value="Microsoft Prabhat Online (Natural) - English (India)">★ Microsoft Prabhat Online (Natural) - English (India) (en-IN)</option><option value="Microsoft Connor Online (Natural) - English (Ireland)">★ Microsoft Connor Online (Natural) - English (Ireland) (en-IE)</option><option value="Microsoft Emily Online (Natural) - English (Ireland)">★ Microsoft Emily Online (Natural) - English (Ireland) (en-IE)</option><option value="Microsoft Asilia Online (Natural) - English (Kenya)">★ Microsoft Asilia Online (Natural) - English (Kenya) (en-KE)</option><option value="Microsoft Chilemba Online (Natural) - English (Kenya)">★ Microsoft Chilemba Online (Natural) - English (Kenya) (en-KE)</option><option value="Microsoft Mitchell Online (Natural) - English (New Zealand)">★ Microsoft Mitchell Online (Natural) - English (New Zealand) (en-NZ)</option><option value="Microsoft Molly Online (Natural) - English (New Zealand)">★ Microsoft Molly Online (Natural) - English (New Zealand) (en-NZ)</option><option value="Microsoft Abeo Online (Natural) - English (Nigeria)">★ Microsoft Abeo Online (Natural) - English (Nigeria) (en-NG)</option><option value="Microsoft Ezinne Online (Natural) - English (Nigeria)">★ Microsoft Ezinne Online (Natural) - English (Nigeria) (en-NG)</option><option value="Microsoft James Online (Natural) - English (Philippines)">★ Microsoft James Online (Natural) - English (Philippines) (en-PH)</option><option value="Microsoft Rosa Online (Natural) - English (Philippines)">★ Microsoft Rosa Online (Natural) - English (Philippines) (en-PH)</option><option value="Microsoft Ava Online (Natural) - English (United States)">★ Microsoft Ava Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Andrew Online (Natural) - English (United States)">★ Microsoft Andrew Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Emma Online (Natural) - English (United States)">★ Microsoft Emma Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Brian Online (Natural) - English (United States)">★ Microsoft Brian Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Luna Online (Natural) - English (Singapore)">★ Microsoft Luna Online (Natural) - English (Singapore) (en-SG)</option><option value="Microsoft Wayne Online (Natural) - English (Singapore)">★ Microsoft Wayne Online (Natural) - English (Singapore) (en-SG)</option><option value="Microsoft Leah Online (Natural) - English (South Africa)">★ Microsoft Leah Online (Natural) - English (South Africa) (en-ZA)</option><option value="Microsoft Luke Online (Natural) - English (South Africa)">★ Microsoft Luke Online (Natural) - English (South Africa) (en-ZA)</option><option value="Microsoft Elimu Online (Natural) - English (Tanzania)">★ Microsoft Elimu Online (Natural) - English (Tanzania) (en-TZ)</option><option value="Microsoft Imani Online (Natural) - English (Tanzania)">★ Microsoft Imani Online (Natural) - English (Tanzania) (en-TZ)</option><option value="Microsoft Libby Online (Natural) - English (United Kingdom)">★ Microsoft Libby Online (Natural) - English (United Kingdom) (en-GB)</option><option value="Microsoft Maisie Online (Natural) - English (United Kingdom)">★ Microsoft Maisie Online (Natural) - English (United Kingdom) (en-GB)</option><option value="Microsoft Ryan Online (Natural) - English (United Kingdom)">★ Microsoft Ryan Online (Natural) - English (United Kingdom) (en-GB)</option><option value="Microsoft Sonia Online (Natural) - English (United Kingdom)">★ Microsoft Sonia Online (Natural) - English (United Kingdom) (en-GB)</option><option value="Microsoft Thomas Online (Natural) - English (United Kingdom)">★ Microsoft Thomas Online (Natural) - English (United Kingdom) (en-GB)</option><option value="Microsoft Ana Online (Natural) - English (United States)">★ Microsoft Ana Online (Natural) - English (United States) (en-US)</option><option value="Microsoft AndrewMultilingual Online (Natural) - English (United States)">★ Microsoft AndrewMultilingual Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Aria Online (Natural) - English (United States)">★ Microsoft Aria Online (Natural) - English (United States) (en-US)</option><option value="Microsoft AvaMultilingual Online (Natural) - English (United States)">★ Microsoft AvaMultilingual Online (Natural) - English (United States) (en-US)</option><option value="Microsoft BrianMultilingual Online (Natural) - English (United States)">★ Microsoft BrianMultilingual Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Christopher Online (Natural) - English (United States)">★ Microsoft Christopher Online (Natural) - English (United States) (en-US)</option><option value="Microsoft EmmaMultilingual Online (Natural) - English (United States)">★ Microsoft EmmaMultilingual Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Eric Online (Natural) - English (United States)">★ Microsoft Eric Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Guy Online (Natural) - English (United States)">★ Microsoft Guy Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Jenny Online (Natural) - English (United States)">★ Microsoft Jenny Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Michelle Online (Natural) - English (United States)">★ Microsoft Michelle Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Roger Online (Natural) - English (United States)">★ Microsoft Roger Online (Natural) - English (United States) (en-US)</option><option value="Microsoft Steffan Online (Natural) - English (United States)">★ Microsoft Steffan Online (Natural) - English (United States) (en-US)</option></select>
+  <span style="font-size:11px;color:#333">Speed</span>
+  <select class="vsel" id="spsel" onchange="setSpd(this.value)">
+    <option value="0.85">0.85×</option>
+    <option value="0.9">0.9×</option>
+    <option value="1" selected="">1.0×</option>
+    <option value="1.1">1.1×</option>
+  </select>
+  <span class="vstatus id" id="vstatus">Chrome / Edge recommended</span>
+</div>
+<div class="chnav" id="chnav"><button class="cpill on">▶ Intro</button><button class="cpill">P1: The Hub</button><button class="cpill">P1: The Network</button><button class="cpill">P2: Jeet Orders</button><button class="cpill">P2: The Warehouse</button><button class="cpill">P2: Memphis Hub</button><button class="cpill">P2: In the Air</button><button class="cpill">P2: Delivered!</button></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// TIMELINE
+// Part 1: 0 – 37s  = real FedEx video
+// Part 2: 37 – 150s = Jeet's animated story (5 scenes × ~22s)
+// Total  = 150s = 2 min 30 sec
+// ════════════════════════════════════════════════════════════════
+const PART1_END  = 37;
+const TOTAL_TIME = 150;
+
+// ── CHAPTERS (global seconds) ────────────────────────────────
+const CHAPTERS = [
+  // PART 1
+  { t:0,  part:1, ch:'',         title:'', sub:'', statNum:'', statLbl:'',
+    tag:'', stitle:'',
+    vo:"Think about the last thing you ordered online. Where did it actually come from? How did it get to your door so fast? The answer is a supply chain — and right now you are standing inside one of the most powerful on Earth." },
+
+  { t:13, part:1, ch:'The Hub',  title:'Memphis World Hub', sub:'940 acres · every night · never stops',
+    statNum:'1M+', statLbl:'packages\nevery day',
+    tag:'', stitle:'',
+    vo:"This is the FedEx Memphis World Hub. Over one million packages flow through here every single day, connecting manufacturers to customers across 220 countries. Every belt, every scanner, every aircraft — all part of one enormous supply chain." },
+
+  { t:26, part:1, ch:'The Network', title:'Intelligence at Scale', sub:'AI · automation · zero errors',
+    statNum:'$2.2B', statLbl:'saved in FY2024\nthrough DRIVE',
+    tag:'', stitle:'',
+    vo:"Behind every delivery is a network of technology, people, and decisions. Now let's follow one specific journey — through the eyes of Jeet — to see exactly how a supply chain works, from the very first step to the moment it lands at his door." },
+
+  // PART 2 — simple physical journey, no deep concepts
+  { t:37, part:2, ch:"Jeet Orders",    title:"Jeet Taps — Order Now",         sub:'The supply chain begins with a single tap',
+    tag:"SCENE 1", stitle:"Jeet Orders His Sneakers",
+    vo:"Meet Jeet. He's in Memphis, and he just ordered a new pair of sneakers on his phone. The moment he taps Order, a signal shoots to a warehouse hundreds of miles away. Someone there is about to pick up his box." },
+
+  { t:57, part:2, ch:"The Warehouse",  title:"Pick, Pack & Ship",             sub:'Warehouse → FedEx driver → on the road',
+    tag:"SCENE 2", stitle:"The Warehouse — Pick, Pack, Ship",
+    vo:"In a warehouse in Chicago, a worker finds Jeet's sneakers on the shelf, packs them into a box, and seals it. A FedEx driver arrives, scans the label, and loads it into the van. The physical journey has begun — the box is now moving downstream toward Jeet." },
+
+  { t:77, part:2, ch:"Memphis Hub",    title:"Through the Hub at Midnight",   sub:'Sorted · scanned · routed · loaded',
+    tag:"SCENE 3", stitle:"Memphis Hub — Midnight Sort",
+    vo:"That evening, Jeet's box arrives at the FedEx Memphis Hub. It joins over a million other packages on the conveyor belts. Scanners read its label in a split second. The system routes it to the correct gate. It's loaded onto a FedEx aircraft — and takes off into the night." },
+
+  { t:100, part:2, ch:"In the Air",    title:"Flying to Jeet",                sub:'700 aircraft · 220 countries · overnight',
+    tag:"SCENE 4", stitle:"In the Air — Overnight Flight",
+    vo:"The aircraft lands in Memphis, the box is sorted again, then loaded onto a delivery van heading to Jeet's city. A driver checks the route on his device, pulls up outside Jeet's building, scans the label one last time — and knocks on the door." },
+
+  { t:122, part:2, ch:"Delivered!",    title:"Jeet Gets His Sneakers",        sub:'From tap to doorstep — the chain is complete',
+    tag:"SCENE 5", stitle:"Delivered to Jeet's Door!",
+    vo:"Jeet opens the door. His sneakers have travelled from a factory, to a warehouse, to a FedEx hub, onto an aircraft, into a van, and finally to his hands — in less than 24 hours. That entire journey is a supply chain. Now let's discuss in detail how each component of that journey works." }
+];
+
+// ── SCENES timing within Part 2 (storyT = globalT - 37) ─────
+const SCENES = [
+  {t:0,   bgFn:bgScene1, fgFn:fgScene1, tag:"SCENE 1", stitle:"Jeet Orders His Sneakers"},
+  {t:20,  bgFn:bgScene2, fgFn:fgScene2, tag:"SCENE 2", stitle:"Warehouse — Pick, Pack, Ship"},
+  {t:40,  bgFn:bgScene3, fgFn:fgScene3, tag:"SCENE 3", stitle:"Memphis Hub — Midnight Sort"},
+  {t:63,  bgFn:bgScene4, fgFn:fgScene4, tag:"SCENE 4", stitle:"In the Air — Overnight Flight"},
+  {t:85,  bgFn:bgScene5, fgFn:fgScene5, tag:"SCENE 5", stitle:"Delivered to Jeet's Door!"},
+];
+
+// ════════════════════════════════════════════════════════════════
+// TIMER
+// ════════════════════════════════════════════════════════════════
+let globalT=0, running=false, lastRAFts=null, rafId=null;
+let videoEnded=false, part2Active=false;
+const vid=document.getElementById('vid');
+
+function globalTick(ts){
+  if(!running) return;
+  if(lastRAFts!==null) globalT+=(ts-lastRAFts)/1000;
+  lastRAFts=ts;
+  if(globalT>=TOTAL_TIME){globalT=TOTAL_TIME;endAll();return;}
+  updateProgressUI();
+  checkChapter();
+  if(part2Active) renderStory(globalT-PART1_END);
+  rafId=requestAnimationFrame(globalTick);
+}
+
+// ════════════════════════════════════════════════════════════════
+// PART SWITCHING
+// ════════════════════════════════════════════════════════════════
+function switchToPart2(){
+  if(part2Active) return;
+  part2Active=true;
+  lastSceneBg=-1; lastSceneFg=-1;
+  document.getElementById('main-hl').classList.remove('show');
+  document.getElementById('lower-third').classList.remove('show');
+  document.getElementById('stat-card').classList.remove('show');
+  document.getElementById('top-badge').classList.remove('show');
+  document.getElementById('story-canvas').style.display='block';
+  document.getElementById('scene-label').classList.add('show');
+  document.querySelectorAll('.bar-top,.bar-bot,.vignette,.grad-top,.grad-bot').forEach(e=>e.style.opacity='0');
+}
+
+// ════════════════════════════════════════════════════════════════
+// STORY RENDERING — two SVG layers
+// bg = static background drawn once per scene
+// fg = animated elements redrawn every frame
+// ════════════════════════════════════════════════════════════════
+const bgSVG=document.getElementById('story-bg');
+const fgSVG=document.getElementById('story-fg');
+let lastSceneBg=-1, lastSceneFg=-1;
+
+function renderStory(storyT){
+  // find current scene
+  let si=0;
+  for(let i=SCENES.length-1;i>=0;i--){ if(storyT>=SCENES[i].t){si=i;break;} }
+  const sc=SCENES[si];
+  const dt=storyT-sc.t; // seconds into this scene
+
+  // Redraw BACKGROUND only when scene changes
+  if(si!==lastSceneBg){
+    lastSceneBg=si;
+    bgSVG.innerHTML='';
+    sc.bgFn(bgSVG);
+    // Update scene label
+    document.getElementById('sl-tag').textContent=sc.tag;
+    document.getElementById('sl-title').textContent=sc.stitle;
+  }
+  // Redraw FOREGROUND every frame
+  fgSVG.innerHTML='';
+  sc.fgFn(fgSVG, dt);
+}
+
+// ── SVG helpers ──────────────────────────────────────────────
+function E(svg,tag,attrs,txt){
+  const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  if(attrs) Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  if(txt!==undefined) e.textContent=txt;
+  svg.appendChild(e); return e;
+}
+function rect(svg,x,y,w,h,fill,extra={}){return E(svg,'rect',{x,y,width:w,height:h,fill,...extra});}
+function circle(svg,cx,cy,r,fill,extra={}){return E(svg,'circle',{cx,cy,r,fill,...extra});}
+function text(svg,x,y,str,fill,size,extra={}){return E(svg,'text',{x,y,'text-anchor':'middle',fill,'font-size':size,'font-family':'Arial','font-weight':'bold',...extra},str);}
+function line(svg,x1,y1,x2,y2,stroke,sw=2,extra={}){return E(svg,'line',{x1,y1,x2,y2,stroke,'stroke-width':sw,...extra});}
+function pill(svg,x,y,str,fill='#FF6600',tc='#fff'){
+  const w=str.length*7+24;
+  rect(svg,x-w/2,y-13,w,26,fill,{rx:13});
+  text(svg,x,y+5,str,tc,11);
+}
+
+function jeetChar(svg,x,y,sc=1){
+  const g=E(svg,'g',{transform:`translate(${x},${y}) scale(${sc})`});
+  const ge=(tag,at,txt)=>{ const e=document.createElementNS('http://www.w3.org/2000/svg',tag); Object.entries(at).forEach(([k,v])=>e.setAttribute(k,v)); if(txt) e.textContent=txt; g.appendChild(e); return e; };
+  ge('ellipse',{cx:0,cy:0,rx:18,ry:22,fill:'#3B82F6'});
+  ge('circle',{cx:0,cy:-32,r:16,fill:'#F5C5A3'});
+  ge('ellipse',{cx:0,cy:-43,rx:15,ry:7,fill:'#1a0a00'});
+  ge('circle',{cx:-4,cy:-33,r:2.5,fill:'#1a0a00'});
+  ge('circle',{cx:4,cy:-33,r:2.5,fill:'#1a0a00'});
+  ge('path',{d:'M-5,-26 Q0,-22 5,-26',stroke:'#1a0a00','stroke-width':1.5,fill:'none'});
+  ge('line',{x1:-18,y1:-8,x2:-28,y2:6,stroke:'#F5C5A3','stroke-width':6,'stroke-linecap':'round'});
+  ge('line',{x1:18,y1:-8,x2:28,y2:6,stroke:'#F5C5A3','stroke-width':6,'stroke-linecap':'round'});
+  ge('line',{x1:-8,y1:20,x2:-10,y2:38,stroke:'#1a3a6e','stroke-width':7,'stroke-linecap':'round'});
+  ge('line',{x1:8,y1:20,x2:10,y2:38,stroke:'#1a3a6e','stroke-width':7,'stroke-linecap':'round'});
+  // name tag
+  const nb=ge('rect',{x:-20,y:45,width:40,height:16,rx:8,fill:'rgba(255,102,0,.9)'});
+  ge('text',{x:0,y:57,'text-anchor':'middle',fill:'#fff','font-size':10,'font-weight':'bold','font-family':'Arial'},'Jeet');
+}
+
+function speechBubble(svg,x,y,lines){
+  const w=Math.max(...lines.map(l=>l.length))*7.5+22;
+  const h=lines.length*19+14;
+  rect(svg,x-w/2,y-h-16,w,h,'#fff',{rx:9,stroke:'#FF6600','stroke-width':1.5});
+  // tail
+  E(svg,'polygon',{points:`${x-7},${y-16} ${x+7},${y-16} ${x},${y-2}`,fill:'#fff',stroke:'#FF6600','stroke-width':1.5});
+  lines.forEach((l,i)=>text(svg,x,y-h-16+18+i*19,l,'#1a0a2e',12));
+}
+
+// ════════════════════════════════════════════════════════════════
+// SCENE BACKGROUNDS (drawn once)
+// ════════════════════════════════════════════════════════════════
+function bgScene1(svg){ // Night apartment
+  // sky gradient
+  const d=E(svg,'defs');
+  const g=E(d,'linearGradient',{id:'sky1',x1:0,y1:0,x2:0,y2:1});
+  E(g,'stop',{'offset':'0%','stop-color':'#0d0520'});
+  E(g,'stop',{'offset':'100%','stop-color':'#1a0a3e'});
+  rect(svg,0,0,800,450,'url(#sky1)');
+  // static stars (seeded positions)
+  const sx=[50,120,200,310,420,520,630,710,770,80,180,350,480,590,700,760,30,260,400,550];
+  const sy=[30,60,20,80,40,70,25,55,35,90,45,15,65,30,50,85,100,110,95,120];
+  sx.forEach((x,i)=>circle(svg,x,sy[i],i%3===0?1.5:1,'#fff',{opacity:0.5+i%3*0.2}));
+  // moon
+  circle(svg,700,60,28,'#fffde0');
+  circle(svg,714,52,22,'#1a0820');
+  // buildings background
+  [[0,90,110],[120,80,100],[240,100,120],[370,70,100],[500,85,110],[630,95,105],[730,75,115]].forEach(([bx,bh,bw])=>{
+    rect(svg,bx,360-bh,bw,bh,'#0d1428');
+    for(let wi=0;wi<3;wi++) for(let wj=0;wj<3;wj++){
+      const wc=((wi+wj)%2===0)?'#FFFDE0':'#0d1428';
+      rect(svg,bx+8+wi*30,360-bh+8+wj*16,16,11,'transparent',{fill:wc,opacity:'0.7',rx:1});
+    }
+  });
+  // ground
+  rect(svg,0,360,800,90,'#0a1a0a');
+  // Jeet's apartment window (lit)
+  rect(svg,280,200,240,180,'#142040',{rx:4,stroke:'#2a4080','stroke-width':2});
+  rect(svg,292,212,100,70,'rgba(255,253,224,0.6)',{rx:2});
+}
+
+function bgScene2(svg){ // Warehouse interior
+  const d=E(svg,'defs');
+  const g=E(d,'linearGradient',{id:'wh',x1:0,y1:0,x2:0,y2:1});
+  E(g,'stop',{'offset':'0%','stop-color':'#f0ebe0'});
+  E(g,'stop',{'offset':'100%','stop-color':'#d8d0c0'});
+  rect(svg,0,0,800,450,'url(#wh)');
+  // roof
+  rect(svg,0,0,800,80,'#c8b898');
+  E(svg,'polygon',{points:'0,80 400,20 800,80',fill:'#b8a878'});
+  // floor
+  rect(svg,0,350,800,100,'#c0b090');
+  // shelves
+  [70,220,370,520,650].forEach(sx=>{
+    rect(svg,sx,90,120,250,'#8B6F47',{rx:2});
+    for(let row=0;row<4;row++){
+      rect(svg,sx+4,95+row*56,112,7,'#6B4F27');
+      ['#FF6600','#3B82F6','#059669','#D97706'].forEach((c,bi)=>{
+        rect(svg,sx+8+bi*26,102+row*56,22,28,c,{rx:2,opacity:'0.9'});
+      });
+    }
+  });
+}
+
+function bgScene3(svg){ // Memphis hub night
+  const d=E(svg,'defs');
+  const g=E(d,'linearGradient',{id:'hub',x1:0,y1:0,x2:0,y2:1});
+  E(g,'stop',{'offset':'0%','stop-color':'#040010'});
+  E(g,'stop',{'offset':'100%','stop-color':'#080820'});
+  rect(svg,0,0,800,450,'url(#hub)');
+  // stars
+  [40,110,200,290,380,460,560,650,730,790,20,150,330,500,680].forEach((x,i)=>{
+    circle(svg,x,10+i*8%80,i%4===0?1.5:1,'#fff',{opacity:String(0.4+i%3*0.2)});
+  });
+  // Hub building
+  rect(svg,0,200,800,250,'#0d1a2e',{stroke:'#1a3a6e','stroke-width':2});
+  E(svg,'polygon',{points:'0,200 400,145 800,200',fill:'#0a1428'});
+  // Hub sign
+  rect(svg,270,150,260,38,'#4D148C',{rx:6});
+  text(svg,400,174,'✈  FEDEX MEMPHIS HUB','#fff',13);
+  // Windows with conveyor belts
+  [50,190,330,470,610].forEach((wx,i)=>{
+    rect(svg,wx,208,120,185,'#080a18',{stroke:'#1a3a6e','stroke-width':1});
+    // belt
+    rect(svg,wx+8,258,104,12,'#2a2a2a',{rx:3});
+  });
+}
+
+function bgScene4(svg){ // Night sky for flight
+  const d=E(svg,'defs');
+  const g=E(d,'linearGradient',{id:'nsk',x1:0,y1:0,x2:0,y2:1});
+  E(g,'stop',{'offset':'0%','stop-color':'#010008'});
+  E(g,'stop',{'offset':'100%','stop-color':'#05001e'});
+  rect(svg,0,0,800,450,'url(#nsk)');
+  // stars
+  [30,100,170,250,320,410,490,570,640,720,780,60,140,310,480,650,55,185,355,525,695].forEach((x,i)=>{
+    circle(svg,x,5+i*9%130,i%5===0?2:1,'#fff',{opacity:String(0.3+i%4*0.15)});
+  });
+  // Moon
+  circle(svg,680,70,34,'#fffde0');
+  circle(svg,696,60,27,'#010008');
+  // clouds (dark)
+  [100,280,500,670].forEach((cx,i)=>{
+    circle(svg,cx,i%2===0?160:200,60,'rgba(20,20,40,0.7)');
+    circle(svg,cx+50,i%2===0?150:190,50,'rgba(20,20,40,0.7)');
+    circle(svg,cx-40,i%2===0?165:205,45,'rgba(20,20,40,0.7)');
+  });
+  // City lights below
+  rect(svg,0,360,800,90,'#050a05');
+  for(let i=0;i<40;i++){
+    const lx=(i*21)%800, ly=365+i%5*12;
+    rect(svg,lx,ly,8,5,'#FFE000',{opacity:String(0.3+i%3*0.2)});
+  }
+}
+
+function bgScene5(svg){ // Jeet's doorstep morning
+  const d=E(svg,'defs');
+  const g=E(d,'linearGradient',{id:'morn',x1:0,y1:0,x2:0,y2:1});
+  E(g,'stop',{'offset':'0%','stop-color':'#FFD54F'});
+  E(g,'stop',{'offset':'100%','stop-color':'#FF8F00'});
+  rect(svg,0,0,800,450,'url(#morn)');
+  // Sun
+  circle(svg,400,30,55,'#FFD700',{opacity:'0.9'});
+  for(let a=0;a<12;a++){
+    const rad=a*(Math.PI/6);
+    line(svg,400+Math.cos(rad)*60,30+Math.sin(rad)*60,400+Math.cos(rad)*80,30+Math.sin(rad)*80,'#FFD700',3,{opacity:'0.7'});
+  }
+  // Ground
+  rect(svg,0,330,800,120,'#4a7a4a');
+  rect(svg,0,330,800,10,'#5a8a5a');
+  // Apartment building
+  rect(svg,500,150,280,280,'#e8d0a0',{stroke:'#c0a060','stroke-width':2});
+  E(svg,'polygon',{points:'490,150 640,90 790,150',fill:'#c09050'});
+  // door
+  rect(svg,590,240,70,90,'#8B6914',{rx:4});
+  circle(svg,650,285,5,'#FFD700');
+  // windows
+  rect(svg,508,165,60,45,'#FFFDE0',{rx:2});
+  rect(svg,590,165,60,45,'#FFFDE0',{rx:2});
+  rect(svg,670,165,60,45,'#FFFDE0',{rx:2});
+  // Road
+  rect(svg,0,400,800,50,'#666');
+  for(let i=0;i<8;i++) rect(svg,i*100,418,60,8,'#fff',{opacity:'0.5'});
+}
+
+// ════════════════════════════════════════════════════════════════
+// SCENE FOREGROUNDS (animated every frame)
+// ════════════════════════════════════════════════════════════════
+function fgScene1(svg,dt){ // Jeet on phone
+  const bob=Math.sin(dt*1.8)*3;
+  // Phone glow
+  rect(svg,368,265+bob,66,95,'#1a3a6e',{rx:8,stroke:'#4D90FE','stroke-width':2});
+  rect(svg,374,273+bob,54,65,'#60A5FA',{rx:4,opacity:'0.9'});
+  E(svg,'text',{x:401,y:313+bob,'text-anchor':'middle','font-size':22},'🛒').textContent='🛒';
+  text(svg,401,345+bob,'sneakers.com','#fff',10);
+  // Jeet
+  jeetChar(svg,400,345+bob,0.9);
+  // speech bubble after 2s
+  if(dt>2) speechBubble(svg,400,235+bob,['I need new sneakers!','Tap... ORDER NOW! 👟']);
+  // pulse ring on tap
+  if(dt>4){
+    const pr=((dt-4)*40)%80;
+    circle(svg,401,265+bob,pr,'none',{stroke:'#FF6600','stroke-width':2,opacity:String(Math.max(0,1-pr/80))});
+  }
+  // caption
+  rect(svg,0,390,800,60,'rgba(0,0,0,.65)');
+  text(svg,400,418,'Jeet taps ORDER — a supply chain springs into action!','#FF6600',13);
+}
+
+function fgScene2(svg,dt){ // Warehouse worker + package moving
+  // Conveyor belt animation
+  const beltOff=(dt*55)%38;
+  for(let cx=0;cx<820;cx+=38) rect(svg,cx-beltOff,350,28,18,'#444',{rx:3});
+  // Jeet's package travelling on belt
+  const pkgX=Math.min(80+(dt*38),650);
+  rect(svg,pkgX-22,336,44,38,'#FF6600',{rx:4,stroke:'#fff','stroke-width':2});
+  text(svg,pkgX,358,'JEET','#fff',9);
+  if(pkgX<500) pill(svg,pkgX,318,'📦 Jeet\'s Sneakers','#059669');
+  // Worker walking alongside
+  jeetChar(svg,pkgX+70,330,0.78);
+  // Scan beam
+  if(dt>1&&dt<3){
+    line(svg,pkgX-22,348,pkgX+22,348,'#FF0000',2,{'stroke-dasharray':'3 2',opacity:'0.8'});
+    text(svg,pkgX,380,'✓ SCANNED','#0f0',11);
+  }
+  // FedEx van at right edge
+  if(pkgX>500){
+    rect(svg,600,295,140,70,'#4D148C',{rx:6});
+    rect(svg,608,272,80,34,'#4D148C',{rx:4});
+    text(svg,670,316,'FedEx','#FF6600',12);
+    circle(svg,620,365,14,'#222');
+    circle(svg,710,365,14,'#222');
+  }
+  rect(svg,0,390,800,60,'rgba(0,0,0,.65)');
+  text(svg,400,418,'Box packed, scanned, loaded — heading to the FedEx network','#FF6600',13);
+}
+
+function fgScene3(svg,dt){ // Hub: moving packages + plane
+  // Animated conveyor packages in windows
+  [50,190,330,470,610].forEach((wx,i)=>{
+    const off=(dt*45+(i*30))%150;
+    ['#FF6600','#4D148C','#059669'].forEach((c,j)=>{
+      const bx=wx+10+((off+j*40)%110);
+      if(bx<wx+118) rect(svg,bx,246,22,22,c,{rx:3});
+    });
+    // spiral chute (arrow)
+    text(svg,wx+60,308,'↓','#FF6600',22);
+  });
+  // Flying aircraft
+  const planeX=((dt*50)+20)%950-50;
+  const planeY=120+Math.sin(dt*0.5)*8;
+  const pg=E(svg,'g',{transform:`translate(${planeX},${planeY})`});
+  const pe=(tag,at)=>{const e=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(at).forEach(([k,v])=>e.setAttribute(k,v));pg.appendChild(e);};
+  pe('ellipse',{cx:0,cy:0,rx:44,ry:11,fill:'#CC4400'});
+  pe('polygon',{points:'0,-11 -44,0 0,0',fill:'#FF6600'});
+  pe('polygon',{points:'0,0 -18,0 -12,16',fill:'#FF6600'});
+  pe('ellipse',{cx:12,cy:0,rx:7,ry:2.5,fill:'#fff',opacity:'0.7'});
+  // engine trail
+  pe('line',{x1:-44,y1:0,x2:-70,y2:0,stroke:'rgba(255,255,255,0.3)','stroke-width':3});
+  svg.appendChild(pg);
+  if(planeX>200&&planeX<600) pill(svg,planeX,planeY-28,'Jeet\'s sneakers onboard','#4D148C');
+  rect(svg,0,390,800,60,'rgba(0,0,0,.75)');
+  text(svg,400,418,'1M+ packages sorted tonight — Jeet\'s box takes off!','#FF6600',13);
+}
+
+function fgScene4(svg,dt){ // Flight + van
+  // Blinking stars
+  [35,130,200,300,400,490,580,670,750,100,260,440,620,780].forEach((x,i)=>{
+    const op=(Math.sin(dt*1.2+i)*.3+.6).toFixed(2);
+    circle(svg,x,15+i*8%110,i%4===0?2:1,'#fff',{opacity:op});
+  });
+  // Aircraft moving across sky
+  const px=((dt*40)+50)%950-100;
+  const py=120+Math.sin(dt*0.3)*15;
+  const ag=E(svg,'g',{transform:`translate(${px},${py})`});
+  const ae=(tag,at)=>{const e=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(at).forEach(([k,v])=>e.setAttribute(k,v));ag.appendChild(e);};
+  ae('ellipse',{cx:0,cy:0,rx:50,ry:13,fill:'#CC4400'});
+  ae('polygon',{points:'0,-13 -50,0 0,0',fill:'#FF6600'});
+  ae('polygon',{points:'0,0 -20,0 -14,18',fill:'#FF6600'});
+  ae('ellipse',{cx:14,cy:0,rx:8,ry:3,fill:'#fff',opacity:'0.7'});
+  ae('line',{x1:-52,y1:0,x2:-80,y2:0,stroke:'rgba(255,255,255,.25)','stroke-width':4});
+  svg.appendChild(ag);
+  // Delivery van on city road
+  if(dt>8){
+    const vx=Math.min(50+(dt-8)*35,580);
+    rect(svg,vx,372,120,58,'#4D148C',{rx:6});
+    rect(svg,vx+8,354,72,28,'#4D148C',{rx:4});
+    text(svg,vx+60,396,'FedEx','#FF6600',11);
+    circle(svg,vx+18,430,13,'#222');
+    circle(svg,vx+98,430,13,'#222');
+    rect(svg,vx+60,348,32,28,'#FF6600',{rx:3});
+    text(svg,vx+76,366,'📦','#fff',10);
+  }
+  rect(svg,0,440,800,10,'rgba(0,0,0,.5)');
+  text(svg,400,428+15,'Overnight flight, then a delivery van — almost at Jeet\'s door','#FF6600',12,{'y':428});
+}
+
+function fgScene5(svg,dt){ // Delivery — Jeet at door
+  // Van driving up
+  const vx=Math.min(-60+(dt*45),370);
+  rect(svg,vx,358,120,58,'#4D148C',{rx:6});
+  rect(svg,vx+8,340,72,28,'#4D148C',{rx:4});
+  text(svg,vx+60,382,'FedEx','#FF6600',11);
+  circle(svg,vx+18,416,13,'#222');
+  circle(svg,vx+98,416,13,'#222');
+  // Package held by driver
+  if(dt>4){
+    const pox=Math.min(vx+130,490);
+    rect(svg,pox-22,348,44,40,'#FF6600',{rx:5,stroke:'#fff','stroke-width':2});
+    text(svg,pox,372,'JEET','#fff',10);
+  }
+  // Jeet at door happy
+  jeetChar(svg,590,280,0.95);
+  if(dt>6) speechBubble(svg,590,200,['My sneakers!!','They\'re here! 🎉']);
+  // Confetti
+  if(dt>7){
+    [100,200,300,400,450,500,550,600,650,700,750,800,120,220,320,420].forEach((x,i)=>{
+      const cy=200+((dt-7)*60+(i*28))%180;
+      circle(svg,x%800,cy,4,['#FF6600','#4D148C','#FFD700','#059669'][i%4]);
+    });
+  }
+  // Checkmarks journey
+  if(dt>8){
+    const steps=['Factory','Warehouse','Memphis Hub','Aircraft','Van','Jeet ✓'];
+    rect(svg,20,390,760,55,'rgba(0,0,0,.8)',{rx:8});
+    steps.forEach((s,i)=>{
+      const sx=60+i*126;
+      const done=i<5;
+      circle(svg,sx,415,10,done?'#059669':'#FF6600');
+      text(svg,sx,418,done?'✓':'→','#fff',9);
+      text(svg,sx,435,s,'rgba(255,255,255,.8)',9);
+      if(i<steps.length-1) line(svg,sx+10,415,sx+116,415,'rgba(255,255,255,.3)',1);
+    });
+  } else {
+    rect(svg,0,390,800,60,'rgba(0,0,0,.65)');
+    text(svg,400,418,'Delivered! Jeet\'s sneakers completed their supply chain journey.','#FF6600',13);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// CHAPTER UI
+// ════════════════════════════════════════════════════════════════
+let lastCh=-1;
+
+function checkChapter(){
+  let ci=0;
+  for(let i=CHAPTERS.length-1;i>=0;i--){ if(globalT>=CHAPTERS[i].t){ci=i;break;} }
+  if(ci!==lastCh){ lastCh=ci; updateChUI(ci); if(running) requestSpeak(ci); }
+}
+
+function updateChUI(ci){
+  const sc=CHAPTERS[ci];
+  document.querySelectorAll('.cdot').forEach((d,i)=>{d.classList.toggle('on',i===ci);d.classList.toggle('past',i<ci);});
+  document.querySelectorAll('.cpill').forEach((p,i)=>p.classList.toggle('on',i===ci));
+  if(sc.part===1){
+    document.getElementById('top-badge').classList.add('show');
+    if(ci===0){
+      document.getElementById('main-hl').classList.add('show');
+      document.getElementById('lower-third').classList.remove('show');
+      document.getElementById('stat-card').classList.remove('show');
+    } else {
+      document.getElementById('main-hl').classList.remove('show');
+      const ltd=document.getElementById('lower-third');
+      ltd.classList.remove('show');
+      setTimeout(()=>{
+        document.getElementById('lt-ch').textContent=sc.ch;
+        document.getElementById('lt-title').textContent=sc.title;
+        document.getElementById('lt-sub').textContent=sc.sub;
+        ltd.classList.add('show');
+      },100);
+      if(sc.statNum){
+        const sc2=document.getElementById('stat-card');
+        sc2.classList.remove('show');
+        setTimeout(()=>{
+          document.getElementById('sc-num').textContent=sc.statNum;
+          document.getElementById('sc-lbl').innerHTML=sc.statLbl.replace('\n','<br>');
+          sc2.classList.add('show');
+        },500);
+      }
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// VOICE ENGINE — queue-based, no mid-sentence cuts
+// ════════════════════════════════════════════════════════════════
+let voiceOn=true,ccOn=true,voiceVol=1.0,voiceSpd=1.0;
+let isSpeaking=false,speakingCh=-1,queuedCh=-1,wBuf=[],wIdx=0;
+
+function pickVoice(){
+  const vv=window.speechSynthesis?window.speechSynthesis.getVoices():[];
+  if(!vv.length) return null;
+
+  // If user manually picked a voice, honour it
+  if(selectedVoiceName){
+    const picked=vv.find(v=>v.name===selectedVoiceName);
+    if(picked) return picked;
+  }
+
+  // Priority: neural/natural online voices first (most human-sounding)
+  const priority=[
+    'Google UK English Male',
+    'Microsoft Guy Online (Natural)',
+    'Microsoft Ryan Online (Natural)',
+    'Microsoft Christopher Online (Natural)',
+    'Microsoft Eric Online (Natural)',
+    'Google US English',
+    'Daniel',
+    'Alex',
+    'Tom',
+    'Microsoft David',
+    'Microsoft Mark',
+  ];
+
+  for(const name of priority){
+    const v=vv.find(x=>x.name.startsWith(name.split(' ')[0])&&
+                        (name.split(' ').slice(1).every(w=>x.name.includes(w))||
+                         x.name===name));
+    if(v) return v;
+  }
+  return vv.find(x=>x.lang.startsWith('en')&&!/female|zira|victoria|samantha|karen|moira|fiona/i.test(x.name))
+      || vv.find(x=>x.lang.startsWith('en'));
+}
+
+// Split text into natural phrases at sentence boundaries
+// This creates micro-pauses between sentences, much more human
+function splitPhrases(text){
+  // Split at '. ', '! ', '? ', '— ', '; '
+  return text.split(/(?<=[.!?;—])\s+/).filter(s=>s.trim().length>0);
+}
+
+function speakNow(ci){
+  if(!voiceOn||!window.speechSynthesis||ci<0||ci>=CHAPTERS.length) return;
+  const sc=CHAPTERS[ci];
+  const fullText=sc.vo;
+  wBuf=fullText.split(' '); wIdx=0;
+  speakingCh=ci; isSpeaking=true;
+  setStatus(`🎙 ${sc.title||'Opening'}`,true);
+
+  // Build queue of utterances — one per sentence phrase
+  // This gives natural pauses between sentences like a real speaker
+  const phrases=splitPhrases(fullText);
+  let phraseIdx=0;
+  let wordOffset=0; // track word position across phrases for CC
+
+  function speakPhrase(){
+    if(phraseIdx>=phrases.length||speakingCh!==ci){
+      // All phrases done
+      isSpeaking=false;
+      if(ccOn) hideCC();
+      if(queuedCh>=0&&queuedCh!==speakingCh){
+        const nx=queuedCh; queuedCh=-1; speakNow(nx);
+      } else {
+        queuedCh=-1; setStatus('Ready',false);
+      }
+      return;
+    }
+
+    const phrase=phrases[phraseIdx];
+    const u=new SpeechSynthesisUtterance(phrase);
+
+    // Human-like voice settings
+    u.volume = voiceVol;
+    u.rate   = voiceSpd * 0.92;   // slightly slower = more natural, less robotic
+    u.pitch  = 1.05;               // very slight warmth
+
+    const v=pickVoice(); if(v) u.voice=v;
+
+    // Track words for CC across all phrases
+    const phraseWords=phrase.split(' ');
+    let localWord=0;
+
+    u.onboundary=e=>{
+      if(e.name!=='word') return;
+      localWord++;
+      wIdx=wordOffset+localWord;
+      if(ccOn) renderCC(wBuf,Math.min(wIdx,wBuf.length-1));
+    };
+
+    u.onend=()=>{
+      wordOffset+=phraseWords.length;
+      phraseIdx++;
+      // Natural pause between sentences: 180ms
+      if(phraseIdx<phrases.length){
+        setTimeout(speakPhrase, 180);
+      } else {
+        speakPhrase(); // triggers the done block above
+      }
+    };
+
+    u.onerror=()=>{
+      // skip broken phrase and continue
+      wordOffset+=phraseWords.length;
+      phraseIdx++;
+      setTimeout(speakPhrase,50);
+    };
+
+    window.speechSynthesis.speak(u);
+
+    // Show first word of this phrase immediately in CC
+    if(ccOn&&phraseIdx===0) renderCC(wBuf,0);
+  }
+
+  speakPhrase();
+}
+function requestSpeak(ci){
+  if(!voiceOn)return;
+  if(speakingCh===ci&&isSpeaking)return;
+  if(!isSpeaking){queuedCh=-1;speakNow(ci);}else{queuedCh=ci;}
+}
+function cancelSpeech(){
+  if(window.speechSynthesis){ window.speechSynthesis.cancel(); }
+  isSpeaking=false; speakingCh=-1; queuedCh=-1;
+  hideCC(); setStatus('Ready',false);
+}
+function renderCC(words,upTo){
+  const bar=document.getElementById('sub-bar'),txt=document.getElementById('sub-txt');
+  if(!ccOn){bar.classList.remove('vis');return;}
+  bar.classList.add('vis');
+  const st=Math.max(0,upTo-5),en=Math.min(words.length,upTo+10);
+  txt.innerHTML=words.slice(st,en).map((w,i)=>{const a=st+i;if(a<upTo)return`<span class="sw-done">${w}</span>`;if(a===upTo)return`<span class="sw-now">${w}</span>`;return`<span class="sw-next">${w}</span>`;}).join(' ');
+}
+function hideCC(){document.getElementById('sub-bar').classList.remove('vis');document.getElementById('sub-txt').innerHTML='';}
+function setStatus(m,s){const e=document.getElementById('vstatus');e.textContent=m;e.className='vstatus '+(s?'sp':'id');}
+
+// ════════════════════════════════════════════════════════════════
+// PLAYBACK
+// ════════════════════════════════════════════════════════════════
+function updateProgressUI(){
+  document.getElementById('pf').style.width=Math.min((globalT/TOTAL_TIME)*100,100)+'%';
+  document.getElementById('tlbl').textContent=`${fmt(globalT)} / ${fmt(TOTAL_TIME)}`;
+}
+
+function endAll(){
+  running=false;cancelAnimationFrame(rafId);
+  setPBtn('↺','Replay');
+  queuedCh=-1;
+  function poll(){if(isSpeaking){setTimeout(poll,400);}else{setTimeout(()=>document.getElementById('end-card').classList.add('show'),800);}}
+  setTimeout(poll,100);
+}
+
+// Update the unified play/pause button
+function setPBtn(icon, label){
+  const ic=document.getElementById('pbtn-icon');
+  const lb=document.getElementById('pbtn-lbl');
+  if(ic) ic.textContent=icon;
+  if(lb) lb.textContent=label;
+}
+
+function startPlay(){
+  document.getElementById('intro').classList.add('gone');
+  globalT=0;lastCh=-1;lastSceneBg=-1;lastSceneFg=-1;videoEnded=false;part2Active=false;
+  document.querySelectorAll('.bar-top,.bar-bot,.vignette,.grad-top,.grad-bot').forEach(e=>e.style.opacity='1');
+  document.getElementById('story-canvas').style.display='none';
+  document.getElementById('scene-label').classList.remove('show');
+  bgSVG.innerHTML='';fgSVG.innerHTML='';
+  cancelSpeech();
+  vid.currentTime=0;vid.play().catch(()=>{});
+  running=true;lastRAFts=null;rafId=requestAnimationFrame(globalTick);
+  setPBtn('⏸','Pause');
+}
+
+function togglePlay(){
+  if(globalT>=TOTAL_TIME){replayAll();return;}
+  if(running){
+    // ── STOP: pause video, stop voice, stop animation ──
+    running=false;
+    cancelAnimationFrame(rafId);
+    lastRAFts=null;
+    vid.pause();
+    // Stop voice immediately — user pressed stop
+    if(window.speechSynthesis) window.speechSynthesis.pause();
+    setPBtn('▶','Play');
+    document.getElementById('pbtn').title='Resume video and voice';
+    setStatus('Paused — press ▶ to resume',false);
+  } else {
+    // ── RESUME: restart animation, resume voice ──
+    running=true;
+    lastRAFts=null;
+    if(!part2Active) vid.play().catch(()=>{});
+    setPBtn('⏸','Pause');
+    document.getElementById('pbtn').title='Pause video and voice';
+    // Resume speech if it was paused mid-sentence, else restart chapter
+    if(window.speechSynthesis && window.speechSynthesis.paused){
+      window.speechSynthesis.resume();
+      setStatus(`🎙 Resumed`,true);
+    } else if(voiceOn && !isSpeaking && lastCh>=0){
+      requestSpeak(lastCh);
+    }
+    rafId=requestAnimationFrame(globalTick);
+  }
+}
+
+function replayAll(){
+  document.getElementById('end-card').classList.remove('show');
+  startPlay();
+}
+
+function seekBarClick(e){
+  const rect2=document.getElementById('pw').getBoundingClientRect();
+  const pct=Math.max(0,Math.min(1,(e.clientX-rect2.left)/rect2.width));
+  globalT=pct*TOTAL_TIME;lastCh=-1;lastSceneBg=-1;lastSceneFg=-1;
+  cancelSpeech();
+  if(globalT<PART1_END){
+    if(part2Active){
+      part2Active=false;
+      document.getElementById('story-canvas').style.display='none';
+      document.getElementById('scene-label').classList.remove('show');
+      document.querySelectorAll('.bar-top,.bar-bot,.vignette,.grad-top,.grad-bot').forEach(e=>e.style.opacity='1');
+    }
+    vid.currentTime=globalT;
+    if(!running){running=true;lastRAFts=null;vid.play().catch(()=>{});setPBtn('⏸','Pause');rafId=requestAnimationFrame(globalTick);}
+  } else {
+    vid.pause();
+    if(!part2Active)switchToPart2();
+    if(!running){running=true;lastRAFts=null;setPBtn('⏸','Pause');rafId=requestAnimationFrame(globalTick);}
+  }
+}
+
+function jumpCh(i){
+  document.getElementById('end-card').classList.remove('show');
+  globalT=CHAPTERS[i].t+0.1;lastCh=-1;lastSceneBg=-1;
+  cancelSpeech();
+  if(CHAPTERS[i].part===1){
+    if(part2Active){part2Active=false;document.getElementById('story-canvas').style.display='none';document.getElementById('scene-label').classList.remove('show');document.querySelectorAll('.bar-top,.bar-bot,.vignette,.grad-top,.grad-bot').forEach(e=>e.style.opacity='1');}
+    vid.currentTime=globalT;
+    if(!running){running=true;lastRAFts=null;vid.play().catch(()=>{});setPBtn('⏸','Pause');rafId=requestAnimationFrame(globalTick);}
+  } else {
+    vid.pause();
+    if(!part2Active)switchToPart2();
+    if(!running){running=true;lastRAFts=null;setPBtn('⏸','Pause');rafId=requestAnimationFrame(globalTick);}
+  }
+}
+
+// Video sync for Part 1
+vid.addEventListener('timeupdate',()=>{
+  if(!part2Active&&running)globalT=vid.currentTime;
+  if(vid.currentTime>=PART1_END&&!part2Active&&!videoEnded){
+    videoEnded=true;vid.pause();switchToPart2();
+  }
+});
+
+// Voice controls
+function toggleVO(){voiceOn=!voiceOn;const b=document.getElementById('vobtn');b.textContent=voiceOn?'Voice ON':'Voice OFF';b.classList.toggle('on',voiceOn);if(!voiceOn)cancelSpeech();else if(running&&lastCh>=0)requestSpeak(lastCh);}
+function toggleCC(){ccOn=!ccOn;const b=document.getElementById('ccbtn');b.textContent=ccOn?'CC ON':'CC OFF';b.classList.toggle('on',ccOn);if(!ccOn)hideCC();}
+function setVol(v){voiceVol=parseFloat(v);}
+function setSpd(v){voiceSpd=parseFloat(v);}
+
+// User-selected voice (empty = auto)
+let selectedVoiceName='';
+function setVoice(name){ selectedVoiceName=name; }
+
+function populateVoicePicker(){
+  const sel=document.getElementById('voice-picker');
+  const vv=window.speechSynthesis?window.speechSynthesis.getVoices():[];
+  // Only show English voices
+  const engVoices=vv.filter(v=>v.lang.startsWith('en'));
+  // Clear existing options except first
+  while(sel.options.length>1) sel.remove(1);
+  engVoices.forEach(v=>{
+    const opt=document.createElement('option');
+    opt.value=v.name;
+    // Mark neural/online voices
+    const isNeural=/online|natural|neural/i.test(v.name);
+    opt.textContent=(isNeural?'★ ':'')+v.name+' ('+v.lang+')';
+    sel.appendChild(opt);
+  });
+  // Auto-select best voice in picker for user guidance
+  const best=pickVoice();
+  if(best) sel.title=`Auto will use: ${best.name}`;
+}
+function fmt(s){const m=Math.floor(s/60),sec=Math.floor(s%60);return`${m}:${String(sec).padStart(2,'0')}`;}
+
+// Build dots + pills + markers
+const dotsEl=document.getElementById('ch-dots'),navEl=document.getElementById('chnav'),pbEl=document.getElementById('pb');
+CHAPTERS.forEach((sc,i)=>{
+  const d=document.createElement('div');
+  d.className='cdot'+(i===0?' on':'');d.title=sc.title||'Opening';d.style.pointerEvents='all';d.onclick=()=>jumpCh(i);dotsEl.appendChild(d);
+  const p=document.createElement('button');
+  p.className='cpill'+(i===0?' on':'');
+  p.textContent=i===0?'▶ Intro':(sc.part===1?`P1: ${sc.ch}`:`P2: ${sc.ch}`);
+  p.onclick=()=>jumpCh(i);navEl.appendChild(p);
+  if(i>0){const m=document.createElement('div');m.className='cm';m.style.left=((sc.t/TOTAL_TIME)*100)+'%';m.title=sc.ch;pbEl.appendChild(m);}
+});
+// Part divider marker
+const pd=document.createElement('div');
+pd.style.cssText=`position:absolute;top:50%;transform:translateY(-50%);left:${(PART1_END/TOTAL_TIME*100).toFixed(1)}%;width:3px;height:16px;background:#FF6600;border-radius:1px;pointer-events:none;opacity:.8`;
+pd.title='Story begins';pbEl.appendChild(pd);
+
+if(window.speechSynthesis){
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged=()=>{
+    window.speechSynthesis.getVoices();
+    populateVoicePicker();
+  };
+  // Chrome loads voices async — try immediately and after short delay
+  setTimeout(populateVoicePicker, 300);
+}
+</script>
+
+
+</body></html>
